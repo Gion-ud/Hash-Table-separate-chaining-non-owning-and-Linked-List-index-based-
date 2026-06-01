@@ -3,29 +3,29 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef struct _hash_slot {
-    const char     *key;
+typedef struct _hash_slot hash_slot_t;
+typedef struct _hash_table hash_table_t;
+
+#define HT_MIN_NSLOT 32
+#define HT_MIN_NBUCKET 32
+
+
+struct _hash_slot {
+    const char     *key;        // not owned
     unsigned int    key_len;
     uint32_t        hash;
-    void           *data;
+    const void     *data;       // not owned
     int             prev_idx;
     int             next_idx;
-} hash_slot_t;
+};
 
-typedef struct _hash_table {
-    hash_slot_t    *slot_arr;
-    int            *slot_free_list;
-    int            *bucket_arr;
-    int             free_head_idx;
-    unsigned int    slot_count;
-    unsigned int    slot_capacity;
-    unsigned int    bucket_count;
-    unsigned int    bucket_capacity;
-} hash_table_t;
+typedef struct _hash_key {
+    const char     *key;        // not owned
+    unsigned int    key_len;
+    uint32_t        hash;
+} hash_key_t;
 
-
-#include <stdlib.h>
-#include <string.h>
+#define NULL_IDX -1
 
 extern hash_table_t *create_hash_table(
     unsigned int bucket_capacity, 
@@ -33,41 +33,30 @@ extern hash_table_t *create_hash_table(
 );
 extern void destroy_hash_table(hash_table_t *ht_p);
 
-hash_table_t *
-create_hash_table(
-    unsigned int bucket_capacity, 
-    unsigned int slot_capacity
-) {
-    hash_table_t *ht_p = (hash_table_t*)malloc(sizeof(hash_table_t));
-    if (!ht_p) goto failed;
-    memset(ht_p, 0, sizeof(*ht_p)); /* Very important: zero init */
+typedef struct _hash_slot_handle_t {
+    int     slot_idx;
+    int     bucket_idx;
+} hash_slot_handle_t;
 
-    ht_p->slot_arr = (hash_slot_t*)calloc(slot_capacity, sizeof(*ht_p->slot_arr));
-    ht_p->slot_free_list = (int*)malloc(slot_capacity * sizeof(*ht_p->slot_free_list));
-    ht_p->bucket_arr = (int*)malloc(bucket_capacity * sizeof(*ht_p->bucket_arr));
-    if (!ht_p->slot_arr || !ht_p->bucket_arr || !ht_p->slot_free_list)
-        goto failed;
-    memset(ht_p->bucket_arr, 0xFF, sizeof(*ht_p->bucket_arr));  // 0xFFFFFFFF == (int32_t)-1
-    memset(ht_p->slot_free_list, 0xFF, sizeof(*ht_p->slot_free_list));
-
-    ht_p->free_head_idx     = 0;
-    ht_p->slot_count        = 0;
-    ht_p->slot_capacity     = slot_capacity;
-    ht_p->bucket_count      = 0;
-    ht_p->bucket_capacity   = bucket_capacity;
-
-    return ht_p;
-failed:
-    destroy_hash_table(ht_p); /* NULL ptr safe */
-    return NULL;
-}
-
-void destroy_hash_table(hash_table_t *ht_p) {
-    if (!ht_p) goto scope_end;
-    if (ht_p->slot_arr) free(ht_p->slot_arr);
-    if (ht_p->slot_free_list) free(ht_p->slot_free_list);
-    if (ht_p->bucket_arr) free(ht_p->bucket_arr);
-    free(ht_p);
-scope_end:
-    return;
-}
+extern int hash_table_insert(
+    hash_table_t   *ht_p,
+    hash_key_t     *key_p,
+    const void     *data
+);
+extern int hash_table_lookup(
+    const hash_table_t     *ht_p,
+    hash_key_t             *key_p,
+    hash_slot_handle_t     *out_slot_handle_p
+);
+extern int hash_table_destroy_handle(
+    hash_table_t       *ht_p,
+    hash_slot_handle_t *slot_handle_p
+);
+extern int hash_table_remove(
+    hash_table_t       *ht_p,
+    hash_slot_handle_t *slot_handle_p
+);
+extern const hash_slot_t *hash_table_get_slot(
+    const hash_table_t         *ht_p,
+    const hash_slot_handle_t   *slot_handle_p
+);
