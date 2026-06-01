@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "_list.h"
 
 int list_node_pool_init(list_node_pool_t *pool_p, unsigned int capacity) {
     if (!pool_p || !capacity) goto failed_return;
@@ -107,29 +108,29 @@ int list_node_insert_before(
     )
         return -1;
 
-    int *target_prev_idx_p = &list_node_prev_idx(pool_p, target_idx);
-    int *target_next_idx_p = &list_node_next_idx(pool_p, target_idx);
-    int *node_prev_idx_p = &list_node_prev_idx(pool_p, node_idx);
-    int *node_next_idx_p = &list_node_next_idx(pool_p, node_idx);
+    int *target_prev_idx_p = &list_node_pool_prev_idx(pool_p, target_idx);
+    int *target_next_idx_p = &list_node_pool_next_idx(pool_p, target_idx);
+    int *node_prev_idx_p = &list_node_pool_prev_idx(pool_p, node_idx);
+    int *node_next_idx_p = &list_node_pool_next_idx(pool_p, node_idx);
 
     assert(
         (*target_next_idx_p != NULL_IDX) ?
-        list_node_prev_idx(pool_p, *target_next_idx_p) == target_idx
+        list_node_pool_prev_idx(pool_p, *target_next_idx_p) == target_idx
         : 1
     );
     assert(
         (*target_prev_idx_p != NULL_IDX) ?
-        list_node_next_idx(pool_p, *target_prev_idx_p) == target_idx
+        list_node_pool_next_idx(pool_p, *target_prev_idx_p) == target_idx
         : 1
     );
     assert(
         (*node_next_idx_p != NULL_IDX) ?
-        list_node_prev_idx(pool_p, *node_next_idx_p) == node_idx
+        list_node_pool_prev_idx(pool_p, *node_next_idx_p) == node_idx
         : 1
     );
     assert(
         (*node_prev_idx_p != NULL_IDX) ?
-        list_node_next_idx(pool_p, *node_prev_idx_p) == node_idx
+        list_node_pool_next_idx(pool_p, *node_prev_idx_p) == node_idx
         : 1
     );
 
@@ -137,13 +138,13 @@ int list_node_insert_before(
     assert(pool_p->free_head_idx <= (int)pool_p->count);
     assert(pool_p->free_head_idx >= NULL_IDX);
 
-    list_node_prev_idx(pool_p, node_idx) = list_node_prev_idx(pool_p, target_idx);
-    list_node_next_idx(pool_p, node_idx) = target_idx;
+    list_node_pool_prev_idx(pool_p, node_idx) = list_node_pool_prev_idx(pool_p, target_idx);
+    list_node_pool_next_idx(pool_p, node_idx) = target_idx;
 
     if (
         *target_prev_idx_p != NULL_IDX
     )
-        list_node_next_idx(
+        list_node_pool_next_idx(
             pool_p,
             *target_prev_idx_p 
         ) = node_idx;
@@ -168,29 +169,29 @@ int list_node_insert_after(
     )
         return -1;
 
-    int *target_prev_idx_p = &list_node_prev_idx(pool_p, target_idx);
-    int *target_next_idx_p = &list_node_next_idx(pool_p, target_idx);
-    int *node_prev_idx_p = &list_node_prev_idx(pool_p, node_idx);
-    int *node_next_idx_p = &list_node_next_idx(pool_p, node_idx);
+    int *target_prev_idx_p = &list_node_pool_prev_idx(pool_p, target_idx);
+    int *target_next_idx_p = &list_node_pool_next_idx(pool_p, target_idx);
+    int *node_prev_idx_p = &list_node_pool_prev_idx(pool_p, node_idx);
+    int *node_next_idx_p = &list_node_pool_next_idx(pool_p, node_idx);
 
     assert(
         (*target_next_idx_p != NULL_IDX) ?
-        list_node_prev_idx(pool_p, *target_next_idx_p) == target_idx
+        list_node_pool_prev_idx(pool_p, *target_next_idx_p) == target_idx
         : 1
     );
     assert(
         (*target_prev_idx_p != NULL_IDX) ?
-        list_node_next_idx(pool_p, *target_prev_idx_p) == target_idx
+        list_node_pool_next_idx(pool_p, *target_prev_idx_p) == target_idx
         : 1
     );
     assert(
         (*node_next_idx_p != NULL_IDX) ?
-        list_node_prev_idx(pool_p, *node_next_idx_p) == node_idx
+        list_node_pool_prev_idx(pool_p, *node_next_idx_p) == node_idx
         : 1
     );
     assert(
         (*node_prev_idx_p != NULL_IDX) ?
-        list_node_next_idx(pool_p, *node_prev_idx_p) == node_idx
+        list_node_pool_next_idx(pool_p, *node_prev_idx_p) == node_idx
         : 1
     );
 
@@ -198,14 +199,13 @@ int list_node_insert_after(
     assert(pool_p->free_head_idx <= (int)pool_p->count);
     assert(pool_p->free_head_idx >= NULL_IDX);
 
-    list_node_prev_idx(pool_p, node_idx) = target_idx;
-    list_node_next_idx(pool_p, node_idx) = *target_next_idx_p;
-    *target_next_idx_p = list_node_next_idx(pool_p, target_idx);
+    list_node_pool_prev_idx(pool_p, node_idx) = target_idx;
+    list_node_pool_next_idx(pool_p, node_idx) = *target_next_idx_p;
 
     if (
         *target_next_idx_p != NULL_IDX
     )
-        list_node_prev_idx(
+        list_node_pool_prev_idx(
             pool_p,
             *target_next_idx_p
         ) = node_idx;
@@ -226,16 +226,16 @@ int list_node_unlink(
     )
         return NULL_IDX;
 
-    int *node_prev_idx_p = &list_node_prev_idx(pool_p, node_idx);
-    int *node_next_idx_p = &list_node_next_idx(pool_p, node_idx);
+    int *node_prev_idx_p = &list_node_pool_prev_idx(pool_p, node_idx);
+    int *node_next_idx_p = &list_node_pool_next_idx(pool_p, node_idx);
     assert(
         (*node_next_idx_p != NULL_IDX) ?
-        list_node_prev_idx(pool_p, *node_next_idx_p) == node_idx
+        list_node_pool_prev_idx(pool_p, *node_next_idx_p) == node_idx
         : 1
     );
     assert(
         (*node_prev_idx_p != NULL_IDX) ?
-        list_node_next_idx(pool_p, *node_prev_idx_p) == node_idx
+        list_node_pool_next_idx(pool_p, *node_prev_idx_p) == node_idx
         : 1
     );
 
@@ -244,35 +244,193 @@ int list_node_unlink(
     assert(pool_p->free_head_idx >= NULL_IDX);
 
     if (*node_prev_idx_p != NULL_IDX)
-        list_node_next_idx(pool_p, *node_prev_idx_p) = *node_next_idx_p;
+        list_node_pool_next_idx(pool_p, *node_prev_idx_p) = *node_next_idx_p;
     if (*node_next_idx_p != NULL_IDX)
-        list_node_prev_idx(pool_p, *node_next_idx_p) = *node_prev_idx_p;
+        list_node_pool_prev_idx(pool_p, *node_next_idx_p) = *node_prev_idx_p;
 
     return node_idx;
 }
 
-int list_init(list_t *list_p, list_node_pool_t *pool_p) {
-    if (
-        !list_p ||
-        !pool_p || !pool_p->node_arr || !pool_p->free_list
-    ) return -1;
-    assert(pool_p->count <= pool_p->capacity);
-    assert(pool_p->free_head_idx <= (int)pool_p->count);
-    assert(pool_p->free_head_idx >= NULL_IDX);
 
-    list_p->head_idx    = NULL_IDX;
-    list_p->tail_idx    = NULL_IDX;
-    list_p->length      = 0;
-    list_p->node_pool_p = pool_p;
-
-    return 0;
-}
 
 void list_fini(list_t *list_p) {
     if (!list_p) return;
     list_p->head_idx    = NULL_IDX;
     list_p->tail_idx    = NULL_IDX;
     list_p->length      = 0;
-    list_p->node_pool_p = NULL;
+    if (list_p->node_pool_p) {
+        list_node_pool_fini(list_p->node_pool_p);
+        free(list_p->node_pool_p);
+    }
 }
 
+int list_init(list_t *list_p, unsigned int capacity) {
+    if (!list_p) goto failed_ret;
+    memset(list_p, 0, sizeof(*list_p));
+
+    list_p->node_pool_p = (list_node_pool_t*)malloc(sizeof(list_node_pool_t));
+    if (!list_p->node_pool_p) goto failed;
+    if (list_node_pool_init(list_p->node_pool_p, capacity) < 0) goto failed;
+
+    list_p->head_idx    = NULL_IDX;
+    list_p->tail_idx    = NULL_IDX;
+    list_p->length      = 0;
+
+    return 0;
+failed:
+    list_fini(list_p);
+failed_ret:
+    return -1;
+}
+
+int list_push_front(list_t *list_p, void *data) {
+    if (!list_p) goto failed;
+    int node_idx = list_create_node(list_p->node_pool_p, data);
+    if (node_idx == NULL_IDX) goto failed;
+    if (list_p->head_idx == NULL_IDX) {
+        assert(list_p->tail_idx == NULL_IDX);
+        assert(!list_p->length);
+        list_p->tail_idx = node_idx;
+
+    } else {
+        if (
+            list_node_insert_before(
+                list_p->node_pool_p, list_p->head_idx, node_idx
+            ) < 0
+        ) goto failed;
+    }
+    list_p->head_idx = node_idx;
+    ++list_p->length;
+    return 0;
+failed:
+    if (node_idx != NULL_IDX)
+        list_destroy_node(list_p->node_pool_p, node_idx);
+    return -1;
+}
+
+int list_push_back(list_t *list_p, void *data) {
+    if (!list_p) goto failed;
+    int node_idx = list_create_node(list_p->node_pool_p, data);
+    if (node_idx == NULL_IDX) goto failed;
+    if (list_p->tail_idx == NULL_IDX) {
+        assert(list_p->head_idx == NULL_IDX);
+        assert(!list_p->length);
+        list_p->head_idx = node_idx;
+    } else {
+        if (
+            list_node_insert_after(
+                list_p->node_pool_p, list_p->tail_idx, node_idx
+            ) < 0
+        ) goto failed;
+    }
+    list_p->tail_idx = node_idx;
+    ++list_p->length;
+    return 0;
+failed:
+    if (node_idx != NULL_IDX)
+        list_destroy_node(list_p->node_pool_p, node_idx);
+    return -1;
+}
+int list_pop_front(list_t *list_p) {
+    if (!list_p || !list_p->length) goto failed;
+    int old_head =
+        list_node_unlink(
+            list_p->node_pool_p, list_p->head_idx
+        );
+    if (old_head == NULL_IDX) goto failed;
+    list_p->head_idx = list_node_pool_next_idx(list_p->node_pool_p, old_head);
+    --list_p->length;
+    list_destroy_node(list_p->node_pool_p, old_head);
+    return 0;
+failed:
+    return -1;
+}
+int list_pop_back(list_t *list_p) {
+    if (!list_p || !list_p->length) goto failed;
+    int old_tail =
+        list_node_unlink(
+            list_p->node_pool_p, list_p->tail_idx
+        );
+    if (old_tail == NULL_IDX) goto failed;
+    list_p->tail_idx = list_node_pool_prev_idx(list_p->node_pool_p, old_tail);
+    --list_p->length;
+    list_destroy_node(list_p->node_pool_p, old_tail);
+    return 0;
+failed:
+    return -1;
+}
+int list_get_nth_node(list_t *list_p, int idx) {
+    if (
+        !list_p ||
+        !list_p->node_pool_p ||
+        !list_p->node_pool_p->node_arr ||
+        !list_p->node_pool_p->free_list ||
+        idx < 0 ||
+        idx >= (int)list_p->length
+    ) return NULL_IDX;
+
+    assert(list_p->node_pool_p->count <= list_p->node_pool_p->capacity);
+    assert(list_p->node_pool_p->free_head_idx <= (int)list_p->node_pool_p->count);
+    assert(list_p->node_pool_p->free_head_idx >= NULL_IDX);
+
+    int itc = 0;
+    int node_idx = list_p->head_idx;
+    while (itc < idx) {
+        if (node_idx == NULL_IDX) break;
+        node_idx = list_node_pool_next_idx(list_p->node_pool_p, node_idx);
+        ++itc;
+    }
+
+    return node_idx;
+}
+int list_insert_before(list_t *list_p, int target_idx, void *data) {
+    if (!list_p) goto failed;
+    if (target_idx == list_p->head_idx) {
+        if (list_push_front(list_p, data) < 0) goto failed;
+    }
+    int node_idx = list_create_node(list_p->node_pool_p, data);
+    if (node_idx == NULL_IDX) goto failed;
+    if (
+        list_node_insert_before(
+            list_p->node_pool_p, target_idx, node_idx
+        ) < 0
+    ) goto failed;
+    ++list_p->length;
+    return 0;
+failed:
+    return -1;
+}
+int list_insert_after(list_t *list_p, int target_idx, void *data) {
+    if (!list_p) goto failed;
+    if (target_idx == list_p->tail_idx) {
+        if (list_push_back(list_p, data) < 0) goto failed;
+    }
+    int node_idx = list_create_node(list_p->node_pool_p, data);
+    if (node_idx == NULL_IDX) goto failed;
+    int ret =
+        list_node_insert_after(
+            list_p->node_pool_p, target_idx, node_idx
+        );
+    if (ret < 0) goto failed;
+    ++list_p->length;
+    return 0;
+failed:
+    return -1;
+}
+int list_remove(list_t *list_p, int node_idx) {
+    if (!list_p || !list_p->length) goto failed;
+    if (node_idx == list_p->head_idx)
+        return list_pop_front(list_p);
+    else if (node_idx == list_p->tail_idx)
+        return list_pop_back(list_p);
+    int ret =
+        list_node_unlink(
+            list_p->node_pool_p, node_idx
+        );
+    if (ret < 0) goto failed;
+    list_destroy_node(list_p->node_pool_p, node_idx);
+    --list_p->length;
+    return node_idx;
+failed:
+    return -1;
+}

@@ -1,10 +1,9 @@
 #include <list.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <assert.h>
 
-
-#define NODE_POOL_CAP 32
+#define LIST_CAPACITY 32u
 
 const char *keys[] = {
     "node_0",
@@ -26,99 +25,54 @@ const char *keys[] = {
 };
 const size_t keyc = sizeof(keys) / sizeof(*keys);
 
-int main(void) {
-    list_node_pool_t pool = {0};
-    int ret = list_node_pool_init(&pool, NODE_POOL_CAP);
-    assert(ret >= 0);
+int main() {
+    list_t ls = {0};
+    if (list_init(&ls, LIST_CAPACITY) < 0) goto failed_return;
 
-    puts("create node");
-    int node_tail = list_create_node(&pool, (void*)keys[0]);
-    assert(node_tail != NULL_IDX);
-    int node_head = node_tail;
-    puts("node created");
-    for (size_t i = 1; i != keyc; ++i) {
-        puts("it");
-        int node_next = list_create_node(&pool, (void*)keys[i]);
-        assert(node_next != NULL_IDX);
-        list_node_insert_after(&pool, node_tail, node_next);
-        node_tail = node_next;
+    for (unsigned int i = 0; i < keyc; ++i) {
+        puts("list_push_back it");
+        int ret = list_push_back(&ls, (void*)keys[i]);
+        assert(ret >= 0);
+    }
+    list_iterator_t it = {0};
+    puts("forward it");
+    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
+        printf("key: %s\n", (char*)it->data);
+    }
+    puts("backwards it");
+    for (it = list_rbegin(&ls); it != list_rend(&ls); it = list_rnext(&ls, it)) {
+        printf("key: %s\n", (char*)it->data);
     }
 
+    printf("\nkey: %s\n", (char*)(list_get_node_ptr(&ls, list_get_nth_node(&ls, 3)))->data);
+    list_remove(&ls, list_get_nth_node(&ls, 3));
     puts("");
-    for (int i = node_tail; i != NULL_IDX; i = list_node_prev_idx(&pool, i)) {
-        list_node_t *np = list_node_pool_get(&pool, i);
-        printf("%s\n", (char*)np->data);
+    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
+        printf("key: %s\n", (char*)it->data);
     }
-
     puts("");
-    for (int i = node_head; i != NULL_IDX; i = list_node_next_idx(&pool, i)) {
-        list_node_t *np = list_node_pool_get(&pool, i);
-        printf("%s\n", (char*)np->data);
+    list_insert_before(&ls, list_get_nth_node(&ls, 3), (void*)keys[3]);
+    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
+        printf("key: %s\n", (char*)it->data);
     }
-
+    list_insert_after(&ls, list_get_nth_node(&ls, 7), "67676767");
     puts("");
-    for (size_t i = 1; i != keyc; ++i) {
-        puts("it");
-        int node_prev = list_create_node(&pool, (void*)keys[i]);
-        assert(node_prev != NULL_IDX);
-        list_node_insert_before(&pool, node_head, node_prev);
-        node_head = node_prev;
+    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
+        printf("key: %s\n", (char*)it->data);
     }
-
+    list_remove(&ls, list_get_nth_node(&ls, 7 + 1));
     puts("");
-    for (int i = node_head; i != NULL_IDX; i = list_node_next_idx(&pool, i)) {
-        list_node_t *np = list_node_pool_get(&pool, i);
-        printf("%s\n", (char*)np->data);
+    list_remove(&ls, list_get_nth_node(&ls, 0));
+    list_remove(&ls, list_get_nth_node(&ls, 13));
+    list_remove(&ls, list_get_nth_node(&ls, 6));
+    list_insert_after(&ls, list_get_nth_node(&ls, 7), "67676767");
+    list_insert_after(&ls, list_get_nth_node(&ls, 9), "69696969");
+    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
+        printf("key: [%d] %s\n", it - list_begin(&ls), (char*)it->data);
     }
 
-    puts("");
-    for (size_t i = 1; i != keyc; ++i) {
-        puts("it");
-        int old_tail = list_node_unlink(&pool, node_tail);
-        node_tail = list_node_prev_idx(&pool, old_tail);
-        int ret = list_destroy_node(&pool, old_tail);
-        assert(ret != -1);
-    }
-
-    puts("");
-    for (int i = node_head; i != NULL_IDX; i = list_node_next_idx(&pool, i)) {
-        list_node_t *np = list_node_pool_get(&pool, i);
-        printf("%s\n", (char*)np->data);
-    }
-
-    puts("");
-    for (ptrdiff_t i = keyc - 2; i > -1; --i) {
-        puts("it");
-        int node_prev = list_create_node(&pool, (void*)keys[i]);
-        assert(node_prev != NULL_IDX);
-        list_node_insert_before(&pool, node_head, node_prev);
-        node_head = node_prev;
-    }
-
-
-    puts("");
-    for (int i = node_head; i != NULL_IDX; i = list_node_next_idx(&pool, i)) {
-        list_node_t *np = list_node_pool_get(&pool, i);
-        printf("%s\n", (char*)np->data);
-    }
-
-    for (size_t i = 1; i != keyc; ++i) {
-        puts("it");
-        int old_head = list_node_unlink(&pool, node_head);
-        node_head = list_node_next_idx(&pool, old_head);
-        int ret = list_destroy_node(&pool, old_head);
-        assert(ret != -1);
-    }
-
-    puts("");
-    for (int i = node_head; i != NULL_IDX; i = list_node_next_idx(&pool, i)) {
-        list_node_t *np = list_node_pool_get(&pool, i);
-        printf("%s\n", (char*)np->data);
-    }
-
-    printf("%u\n", pool.count);
-
-
-    list_node_pool_fini(&pool);
+    list_fini(&ls);
     return 0;
+failed_return:
+    return -1;
 }
