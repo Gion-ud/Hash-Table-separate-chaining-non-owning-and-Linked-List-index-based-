@@ -1,0 +1,18 @@
+EXPORTS
+    list_create_node @1
+    list_destroy_node @2
+    list_fini @3
+    list_get_nth_node @4
+    list_init @5
+    list_insert_after @6
+    list_insert_before @7
+    list_node_insert_after @8
+    list_node_insert_before @9
+    list_node_pool_fini @10
+    list_node_pool_init @11
+    list_node_unlink @12
+    list_pop_back @13
+    list_pop_front @14
+    list_push_back @15
+    list_push_front @16
+    list_remove @17

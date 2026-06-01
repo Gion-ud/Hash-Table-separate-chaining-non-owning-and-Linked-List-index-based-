@@ -1,6 +1,5 @@
 #include <list.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -31,60 +30,45 @@ int main() {
     if (list_init(&ls, LIST_CAPACITY) < 0) goto failed_return;
 
     for (unsigned int i = 0; i < keyc; ++i) {
+        puts("list_push_back it");
         int ret = list_push_back(&ls, (void*)keys[i]);
         assert(ret >= 0);
     }
     list_iterator_t it = {0};
-
-    puts("");
+    puts("forward it");
     for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
         printf("key: %s\n", (char*)it->data);
     }
-
-    list_erase_nth_node(&ls, 7);
-
-    puts("");
-    for (it = list_rbegin(&ls); it != list_rend(&ls); it = list_rnext(&ls, it)) {
-        printf("key: %s\n", (char*)it->data);
-    }
-    list_push_back(&ls, "node_16");
-    puts("");
+    puts("backwards it");
     for (it = list_rbegin(&ls); it != list_rend(&ls); it = list_rnext(&ls, it)) {
         printf("key: %s\n", (char*)it->data);
     }
 
-    puts("");
-    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
-        if (strcmp((char*)it->data, "node_5") == 0)
-            list_remove(&ls, it - list_begin(&ls));
-    }
-
+    printf("\nkey: %s\n", (char*)(list_get_node_ptr(&ls, list_get_nth_node(&ls, 3)))->data);
+    list_remove(&ls, list_get_nth_node(&ls, 3));
     puts("");
     for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
         printf("key: %s\n", (char*)it->data);
     }
-
     puts("");
-    for (__auto_type i = 0u; i < list_length(&ls); ++i) {
-        it = list_get_nth_node_ptr(&ls, i);
+    list_insert_before(&ls, list_get_nth_node(&ls, 3), (void*)keys[3]);
+    for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
         printf("key: %s\n", (char*)it->data);
     }
-
-    for (int i = 0; i < 5; ++i) {
-        list_pop_back(&ls);
-        list_pop_front(&ls);
-    }
+    list_insert_after(&ls, list_get_nth_node(&ls, 7), "67676767");
     puts("");
     for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
         printf("key: %s\n", (char*)it->data);
     }
-    for (int i = 0; i < 5; ++i) {
-        list_push_back(&ls, (void*)keys[i]);
-        list_push_front(&ls, (void*)keys[keyc - i - 1]);
-    }
+    list_remove(&ls, list_get_nth_node(&ls, 7 + 1));
     puts("");
+    list_remove(&ls, list_get_nth_node(&ls, 0));
+    list_remove(&ls, list_get_nth_node(&ls, 13));
+    list_remove(&ls, list_get_nth_node(&ls, 6));
+    list_insert_after(&ls, list_get_nth_node(&ls, 7), "67676767");
+    list_insert_after(&ls, list_get_nth_node(&ls, 9), "69696969");
     for (it = list_begin(&ls); it != list_end(&ls); it = list_next(&ls, it)) {
-        printf("key: %s\n", (char*)it->data);
+        printf("key: [%d] %s\n", it - list_begin(&ls), (char*)it->data);
     }
 
     list_fini(&ls);

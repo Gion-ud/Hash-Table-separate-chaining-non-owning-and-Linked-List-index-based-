@@ -43,7 +43,7 @@ scope_end:
 static inline int _intrnl_list_node_pool_alloc(list_node_pool_t *pool_p) {
     if (pool_p->count == pool_p->capacity) return NULL_IDX;
     assert(pool_p->count < pool_p->capacity);
-    assert(pool_p->free_head_idx <= (int)pool_p->count);
+    assert(pool_p->free_head_idx <= (int)pool_p->capacity);
     assert(pool_p->free_head_idx > NULL_IDX);
     int node_idx = pool_p->free_head_idx;
     pool_p->free_head_idx = pool_p->free_list[node_idx];
@@ -53,7 +53,7 @@ static inline int _intrnl_list_node_pool_alloc(list_node_pool_t *pool_p) {
 static inline int _intrnl_list_node_pool_free(list_node_pool_t *pool_p, int node_idx) {
     if (!pool_p->count) return -1;
     assert(pool_p->count <= pool_p->capacity);
-    assert(pool_p->free_head_idx <= (int)pool_p->count);
+    assert(pool_p->free_head_idx <= (int)pool_p->capacity);
     assert(pool_p->free_head_idx >= NULL_IDX);
     pool_p->free_list[node_idx] = pool_p->free_head_idx;
     pool_p->free_head_idx = node_idx;
@@ -135,7 +135,7 @@ int list_node_insert_before(
     );
 
     assert(pool_p->count <= pool_p->capacity);
-    assert(pool_p->free_head_idx <= (int)pool_p->count);
+    assert(pool_p->free_head_idx <= (int)pool_p->capacity);
     assert(pool_p->free_head_idx >= NULL_IDX);
 
     list_node_pool_prev_idx(pool_p, node_idx) = list_node_pool_prev_idx(pool_p, target_idx);
@@ -196,7 +196,7 @@ int list_node_insert_after(
     );
 
     assert(pool_p->count <= pool_p->capacity);
-    assert(pool_p->free_head_idx <= (int)pool_p->count);
+    assert(pool_p->free_head_idx <= (int)pool_p->capacity);
     assert(pool_p->free_head_idx >= NULL_IDX);
 
     list_node_pool_prev_idx(pool_p, node_idx) = target_idx;
@@ -240,7 +240,7 @@ int list_node_unlink(
     );
 
     assert(pool_p->count <= pool_p->capacity);
-    assert(pool_p->free_head_idx <= (int)pool_p->count);
+    assert(pool_p->free_head_idx <= (int)pool_p->capacity);
     assert(pool_p->free_head_idx >= NULL_IDX);
 
     if (*node_prev_idx_p != NULL_IDX)
