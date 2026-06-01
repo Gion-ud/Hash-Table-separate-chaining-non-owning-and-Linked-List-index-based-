@@ -1,13 +1,10 @@
 #include <hash_table.h>
 
-#define HT_MIN_NSLOT 32
-#define HT_MIN_NBUCKET 32
-
 struct _hash_table {
     hash_slot_t    *slot_arr;
     unsigned char  *cntl_arr;
     int            *slot_free_list;
-    int            *bucket_arr;
+    int            *bucket_arr;     /* arr of chain head idx */
     int             free_head_idx;
     unsigned int    slot_count;
     unsigned int    slot_capacity;
@@ -204,8 +201,8 @@ int hash_table_remove(
     assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
     assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
 
-    int *prev_idx_p = ht_prev_slot(ht_p, slot_handle_p->slot_idx);
-    int *next_idx_p = ht_next_slot(ht_p, slot_handle_p->slot_idx);
+    int *prev_idx_p = &ht_prev_slot(ht_p, slot_handle_p->slot_idx);
+    int *next_idx_p = &ht_next_slot(ht_p, slot_handle_p->slot_idx);
     /* assert linked list validity here */
     assert(
         (*prev_idx_p != NULL_IDX) ?
@@ -257,8 +254,8 @@ const hash_slot_t *hash_table_get_slot(
     assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
     assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
 
-    int *prev_idx_p = ht_prev_slot(ht_p, slot_handle_p->slot_idx);
-    int *next_idx_p = ht_next_slot(ht_p, slot_handle_p->slot_idx);
+    int *prev_idx_p = &ht_prev_slot(ht_p, slot_handle_p->slot_idx);
+    int *next_idx_p = &ht_next_slot(ht_p, slot_handle_p->slot_idx);
     /* assert linked list validity here */
     assert(
         (*prev_idx_p != NULL_IDX) ?

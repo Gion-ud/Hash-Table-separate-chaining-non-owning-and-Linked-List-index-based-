@@ -11,7 +11,7 @@ typedef struct _hash_table hash_table_t;
 
 
 struct _hash_slot {
-    const char     *key;        // not owned
+    const char     *key;        // not owned; DO NOT modify
     unsigned int    key_len;
     uint32_t        hash;
     const void     *data;       // not owned
@@ -60,3 +60,4 @@ extern const hash_slot_t *hash_table_get_slot(
     const hash_table_t         *ht_p,
     const hash_slot_handle_t   *slot_handle_p
 );
+

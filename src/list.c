@@ -396,8 +396,8 @@ int list_insert_before(list_t *list_p, int target_idx, void *data) {
                 list_p->node_pool_p, target_idx, node_idx
             ) < 0
         ) goto failed;
+        ++list_p->length;
     }
-    ++list_p->length;
     return 0;
 failed:
     return -1;
@@ -415,8 +415,8 @@ int list_insert_after(list_t *list_p, int target_idx, void *data) {
                 list_p->node_pool_p, target_idx, node_idx
             ) < 0
         ) goto failed;
+        ++list_p->length;
     }
-    ++list_p->length;
     return 0;
 failed:
     return -1;
