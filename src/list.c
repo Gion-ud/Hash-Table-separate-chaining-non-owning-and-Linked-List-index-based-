@@ -385,16 +385,18 @@ int list_get_nth_node(list_t *list_p, int idx) {
 }
 int list_insert_before(list_t *list_p, int target_idx, void *data) {
     if (!list_p) goto failed;
+    int node_idx = NULL_IDX;
     if (target_idx == list_p->head_idx) {
         if (list_push_front(list_p, data) < 0) goto failed;
+    } else {
+        node_idx = list_create_node(list_p->node_pool_p, data);
+        if (node_idx == NULL_IDX) goto failed;
+        if (
+            list_node_insert_before(
+                list_p->node_pool_p, target_idx, node_idx
+            ) < 0
+        ) goto failed;
     }
-    int node_idx = list_create_node(list_p->node_pool_p, data);
-    if (node_idx == NULL_IDX) goto failed;
-    if (
-        list_node_insert_before(
-            list_p->node_pool_p, target_idx, node_idx
-        ) < 0
-    ) goto failed;
     ++list_p->length;
     return 0;
 failed:
@@ -402,16 +404,18 @@ failed:
 }
 int list_insert_after(list_t *list_p, int target_idx, void *data) {
     if (!list_p) goto failed;
+    int node_idx = NULL_IDX;
     if (target_idx == list_p->tail_idx) {
         if (list_push_back(list_p, data) < 0) goto failed;
+    } else {
+        node_idx = list_create_node(list_p->node_pool_p, data);
+        if (node_idx == NULL_IDX) goto failed;
+        if (
+            list_node_insert_after(
+                list_p->node_pool_p, target_idx, node_idx
+            ) < 0
+        ) goto failed;
     }
-    int node_idx = list_create_node(list_p->node_pool_p, data);
-    if (node_idx == NULL_IDX) goto failed;
-    int ret =
-        list_node_insert_after(
-            list_p->node_pool_p, target_idx, node_idx
-        );
-    if (ret < 0) goto failed;
     ++list_p->length;
     return 0;
 failed:
