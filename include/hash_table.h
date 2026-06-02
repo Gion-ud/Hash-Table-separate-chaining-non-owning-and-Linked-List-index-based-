@@ -6,8 +6,8 @@
 typedef struct _hash_slot hash_slot_t;
 typedef struct _hash_table hash_table_t;
 
-#define HT_MIN_NSLOT 32
-#define HT_MIN_NBUCKET 32
+#define HT_MIN_NSLOT 4
+#define HT_MIN_NBUCKET 4
 
 
 struct _hash_slot {
@@ -61,3 +61,48 @@ extern const hash_slot_t *hash_table_get_slot(
     const hash_slot_handle_t   *slot_handle_p
 );
 
+#include <string.h>
+#include <hash_fn.h>
+#define hash32 fnv_1a_hash32
+
+static const hash_key_t *
+make_hash_key_from_cstr(
+    hash_key_t *in_hash_key_p,
+    const char *cstr
+) {
+    if (!in_hash_key_p || !cstr) return NULL;
+    in_hash_key_p->key = cstr;
+    in_hash_key_p->key_len = strlen(cstr);
+    in_hash_key_p->hash = hash32(in_hash_key_p->key, in_hash_key_p->key_len);
+    return in_hash_key_p;
+}
+
+static const void *hash_table_get_data_from_key(
+    const hash_table_t         *ht_p,
+    const hash_slot_handle_t   *key_p
+) {
+    if (!ht_p || !key_p) return NULL;
+    hash_slot_handle_t hs_hndl = {0};
+    int ret = hash_table_lookup(ht_p, key_p, &hs_hndl);
+    if (ret < 0) return NULL;
+    const hash_slot_t *slot_p = hash_table_get_slot(ht_p, &hs_hndl);
+    if (!slot_p) return NULL;
+    hash_table_destroy_handle(ht_p, &hs_hndl);
+    return slot_p->data;
+}
+
+static const void *ht_get_data_from_cstr_key(
+    const hash_table_t *ht_p,
+    const char         *key_cstr
+) {
+    if (!ht_p || !key_cstr) return NULL;
+    hash_slot_handle_t hs_hndl = {0};
+    hash_key_t hk = {0};
+    make_hash_key_from_cstr(&hk, key_cstr);
+    int ret = hash_table_lookup(ht_p, &hk, &hs_hndl);
+    if (ret < 0) return NULL;
+    const hash_slot_t *slot_p = hash_table_get_slot(ht_p, &hs_hndl);
+    if (!slot_p) return NULL;
+    hash_table_destroy_handle(ht_p, &hs_hndl);
+    return slot_p->data;
+}

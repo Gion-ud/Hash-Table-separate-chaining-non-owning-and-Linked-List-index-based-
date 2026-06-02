@@ -1,0 +1,8 @@
+EXPORTS
+    create_hash_table @1
+    destroy_hash_table @2
+    hash_table_destroy_handle @3
+    hash_table_get_slot @4
+    hash_table_insert @5
+    hash_table_lookup @6
+    hash_table_remove @7
