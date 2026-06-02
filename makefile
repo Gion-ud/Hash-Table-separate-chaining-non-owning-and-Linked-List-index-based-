@@ -1,8 +1,10 @@
 all: ht.o libht.dll testht
 #all: list.o liblist.dll testls
 
-CFLAGS = -O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing 
-# -D_DEBUG
+CFLAGS = \
+	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing \
+	-Wno-maybe-uninitialized -Wno-unused-function \
+	-D_DEBUG
 # -Wno-maybe-uninitialized
 
 list.o: src/list.c | build

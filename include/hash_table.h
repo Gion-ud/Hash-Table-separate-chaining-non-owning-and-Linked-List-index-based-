@@ -39,13 +39,13 @@ typedef struct _hash_slot_handle_t {
 } hash_slot_handle_t;
 
 extern int hash_table_insert(
-    hash_table_t   *ht_p,
-    hash_key_t     *key_p,
-    const void     *data
+    hash_table_t       *ht_p,
+    const hash_key_t   *key_p,
+    const void         *data
 );
 extern int hash_table_lookup(
     const hash_table_t     *ht_p,
-    hash_key_t             *key_p,
+    const hash_key_t       *key_p,
     hash_slot_handle_t     *out_slot_handle_p
 );
 extern int hash_table_destroy_handle(
@@ -60,6 +60,8 @@ extern const hash_slot_t *hash_table_get_slot(
     const hash_table_t         *ht_p,
     const hash_slot_handle_t   *slot_handle_p
 );
+
+#ifndef _HASH_TABLE_INTRNL_IMPLM
 
 #include <string.h>
 #include <hash_fn.h>
@@ -77,32 +79,4 @@ make_hash_key_from_cstr(
     return in_hash_key_p;
 }
 
-static const void *hash_table_get_data_from_key(
-    const hash_table_t         *ht_p,
-    const hash_slot_handle_t   *key_p
-) {
-    if (!ht_p || !key_p) return NULL;
-    hash_slot_handle_t hs_hndl = {0};
-    int ret = hash_table_lookup(ht_p, key_p, &hs_hndl);
-    if (ret < 0) return NULL;
-    const hash_slot_t *slot_p = hash_table_get_slot(ht_p, &hs_hndl);
-    if (!slot_p) return NULL;
-    hash_table_destroy_handle(ht_p, &hs_hndl);
-    return slot_p->data;
-}
-
-static const void *ht_get_data_from_cstr_key(
-    const hash_table_t *ht_p,
-    const char         *key_cstr
-) {
-    if (!ht_p || !key_cstr) return NULL;
-    hash_slot_handle_t hs_hndl = {0};
-    hash_key_t hk = {0};
-    make_hash_key_from_cstr(&hk, key_cstr);
-    int ret = hash_table_lookup(ht_p, &hk, &hs_hndl);
-    if (ret < 0) return NULL;
-    const hash_slot_t *slot_p = hash_table_get_slot(ht_p, &hs_hndl);
-    if (!slot_p) return NULL;
-    hash_table_destroy_handle(ht_p, &hs_hndl);
-    return slot_p->data;
-}
+#endif /*_HASH_TABLE_INTRNL_IMPLM*/
