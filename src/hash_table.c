@@ -1,3 +1,9 @@
+/*
+ * Refractor required;
+ * organise if early return checks / asserts
+ * John Wood, 2 June 2026
+*/
+
 #define _HASH_TABLE_INTRNL_IMPLM
 #include <hash_table.h>
 
@@ -107,58 +113,116 @@ scope_end:
 #define ht_next_slot(ht_p, slot_idx) \
     (ht_p)->slot_arr[slot_idx].next_idx
 
+
+static inline int _is_valid_storage_ht(const hash_table_t *ht_p) {
+    return (
+        ht_p && ht_p->slot_arr && ht_p->cntl_arr &&
+        ht_p->slot_free_list && ht_p->bucket_arr
+    );
+}
+static inline void _ht_assert_intrnl_state(const hash_table_t *ht_p) {
+    assert(ht_p->slot_count <= ht_p->bucket_count);
+    assert(ht_p->slot_count <= ht_p->slot_capacity);
+    assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
+    assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
+    if (ht_p->slot_count == ht_p->slot_capacity) {
+        assert(ht_p->free_head_idx == NULL_IDX);
+    } else if (!ht_p->slot_count) {
+        assert(ht_p->free_head_idx != NULL_IDX);
+        assert(ht_p->cntl_arr[ht_p->free_head_idx] == SLOT_EMPTY);
+    }
+}
+static inline int _is_valid_ht_slot_handle(
+    const hash_table_t         *ht_p,
+    const hash_slot_handle_t   *hs_handle_p
+) {
+    return (
+        hs_handle_p &&
+        hs_handle_p->bucket_idx > NULL_IDX && 
+        hs_handle_p->bucket_idx < (int)ht_p->bucket_count &&
+        hs_handle_p->slot_idx > NULL_IDX &&
+        hs_handle_p->slot_idx < (int)ht_p->slot_capacity
+    );
+}
+static inline int _is_slot_occupied(
+    const hash_table_t *ht_p,
+    int                 slot_idx     
+) {
+    return (
+        slot_idx != NULL_IDX &&
+        ht_p->cntl_arr[slot_idx] == SLOT_OCCUPIED
+    );
+}
+#define _is_valid_hash_key(hk_p) ((hk_p) && (hk_p)->key && (hk_p)->key_len)
+#define _is_empty_ht(ht_p) (!(ht_p)->slot_count)
+#define _is_not_empty_ht(ht_p) (!_is_empty_ht(ht_p))
+static inline int _is_full_ht(const hash_table_t *ht_p) {
+    return (
+        ht_p->slot_count >= ht_p->slot_capacity &&
+        ht_p->slot_count >= ht_p->bucket_count
+    );
+}
+#define _ht_has_rem_capacity(ht_p) (!_is_full_ht(ht_p))
+
+static inline void
+_ht_assert_slot_chain_integrity(
+    const hash_table_t *ht_p,
+    int                 slot_idx,
+    int                 prev_idx,
+    int                 next_idx
+) {
+    assert(
+        (prev_idx != NULL_IDX) ?
+        ht_next_slot(ht_p, prev_idx) == slot_idx
+        : 1
+    );
+    assert(
+        (next_idx != NULL_IDX) ?
+        ht_prev_slot(ht_p, next_idx) == slot_idx
+        : 1
+    );
+}
+
 int hash_table_insert(
     hash_table_t       *ht_p,
     const hash_key_t   *key_p,
     const void         *data
 ) {
-    _dbg_print("hash_table_insert@0");
-    if (
-        !ht_p || !ht_p->slot_arr || !ht_p->cntl_arr ||
-        !ht_p->slot_free_list || !ht_p->bucket_arr ||
-        ht_p->slot_count == ht_p->slot_capacity ||
-        ht_p->slot_count == ht_p->bucket_count ||
-        !key_p ||
-        !key_p->key ||
-        !key_p->key_len
-    ) return NULL_IDX;
+    _dbg_print("hash_table_insert@0._is_valid_storage_ht");
+    if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_insert@1.0 # assert_valid_intrnl_state");
-    assert(ht_p->slot_count <= ht_p->bucket_count);
-    assert(ht_p->slot_count <= ht_p->slot_capacity);
-    assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
-    assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
+    _dbg_print("hash_table_insert@0.not._is_full_ht");
+    if (_is_full_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_insert@1.1 # assert_valid_free_head_idx");
-    assert(ht_p->free_head_idx != NULL_IDX);
+    _dbg_print("hash_table_insert@0._is_valid_hash_key");
+    if (!_is_valid_hash_key(key_p)) goto failed_ret;
 
+    _dbg_print("hash_table_insert@1._ht_assert_intrnl_state");
+    _ht_assert_intrnl_state(ht_p);
 
     _dbg_print("hash_table_insert@2.0 # head_idx");
-    int *head_p = &ht_p->bucket_arr[key_p->hash % ht_p->bucket_count];
+    int *head_idx_p = &ht_p->bucket_arr[key_p->hash % ht_p->bucket_count];
     _dbg_print("hash_table_insert@2.1 # head_prev_idx");
-    int *head_prev_p = &ht_prev_slot(ht_p, *head_p);
+    int *head_prev_idx_p = &ht_prev_slot(ht_p, *head_idx_p);
 
-    _dbg_print("hash_table_insert@3.0 # alloc_slot");
+    _dbg_print("hash_table_insert@3.alloc_slot");
     int new_slot = ht_p->free_head_idx;
-    _dbg_print("hash_table_insert@3.1 # assert_slot_not_occupied");
-    assert(ht_p->cntl_arr[new_slot] != SLOT_OCCUPIED);
-    _dbg_print("hash_table_insert@3.2 # new_free_head_idx");
     ht_p->free_head_idx = ht_p->slot_free_list[new_slot];
-    _dbg_print("hash_table_insert@3.3 # occcupy_slot");
     ht_p->cntl_arr[new_slot] = SLOT_OCCUPIED;
 
-    _dbg_print("hash_table_insert@4.0 # ht_get_slot");
+    _dbg_print("hash_table_insert@4.ht_get_slot");
     hash_slot_t *slot_p = ht_get_slot(ht_p, new_slot);
     
-    _dbg_print("hash_table_insert@4.1 # deref_slot");
+    _dbg_print("hash_table_insert@4.deref_slot");
     slot_p->key         = key_p->key;       // non owning
     slot_p->key_len     = key_p->key_len;
     slot_p->hash        = key_p->hash;
     slot_p->data        = data;             // non owning
     slot_p->prev_idx    = NULL_IDX;
-    slot_p->next_idx    = *head_p;
+    slot_p->next_idx    = *head_idx_p;
+
     _dbg_print(
-        "hash_table_insert@4.2 # slot%d:\t('%.*s', %u, 0x%.8x, %p, %d, %d)",
+        "hash_table_insert@4 # slot%d:\t('%.*s', %u, 0x%.8x, %p, %d, %d)",
         new_slot,
         slot_p->key_len, slot_p->key,
         slot_p->key_len,
@@ -168,18 +232,26 @@ int hash_table_insert(
         slot_p->next_idx
     );
 
-    _dbg_print("hash_table_insert@5.0 # slot_push_front");
-    if (*head_p != NULL_IDX)
-        *head_prev_p = new_slot;
-    _dbg_print("hash_table_insert@5.1.0 # old_head: %d", *head_p);
-    *head_p = new_slot;
-    _dbg_print("hash_table_insert@5.1.1 # new_head: %d", *head_p);
+    _dbg_print("hash_table_insert@5.chain_push_front");
+    if (*head_idx_p != NULL_IDX)
+        *head_prev_idx_p = new_slot;
+    *head_idx_p = new_slot;
 
-    _dbg_print("hash_table_insert@5.2 # inc_slot_count");
+    _dbg_print("hash_table_insert@6.inc_slot_count");
     ++ht_p->slot_count;
+
+    if (*head_idx_p != NULL_IDX) {
+        _dbg_print("hash_table_insert@7._ht_assert_slot_chain_integrity");
+        int slot_idx = *head_idx_p;
+        int prev_idx = ht_prev_slot(ht_p, slot_idx);
+        int next_idx = ht_next_slot(ht_p, slot_idx);
+        _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
+    }
 
     _dbg_print("hash_table_insert@0.ret\n");
     return new_slot;
+failed_ret:
+    return NULL_IDX;
 }
 
 int hash_table_lookup(
@@ -187,41 +259,30 @@ int hash_table_lookup(
     const hash_key_t   *key_p,
     hash_slot_handle_t *out_slot_handle_p
 ) {
-    _dbg_print("hash_table_lookup@0.0.0 # assert_valid_ht_ptrs");
-    assert(
-        ht_p && ht_p->slot_arr && ht_p->cntl_arr &&
-        ht_p->slot_free_list && ht_p->bucket_arr
-    );
-    _dbg_print("hash_table_lookup@0.0.1 # assert_valid_slot_handle_p");
-    assert(out_slot_handle_p);
-    _dbg_print("hash_table_lookup@0.1 # assert_ht_slot_count");
-    assert(ht_p->slot_count);
-    _dbg_print("hash_table_lookup@0.2 # assert_valid_hash_key");
-    assert(key_p && key_p->key && key_p->key_len);
-    if (
-        !ht_p || !ht_p->slot_arr || !ht_p->cntl_arr ||
-        !ht_p->slot_free_list || !ht_p->bucket_arr ||
-        !out_slot_handle_p || !ht_p->slot_count ||
-        !key_p ||
-        !key_p->key ||
-        !key_p->key_len
-    ) return NULL_IDX;
+    _dbg_print("hash_table_lookup@0._is_valid_storage_ht");
+    if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_lookup@1.0 # assert_valid_intrnl_state");
-    assert(ht_p->slot_count <= ht_p->bucket_count);
-    assert(ht_p->slot_count <= ht_p->slot_capacity);
-    assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
-    assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
+    _dbg_print("hash_table_lookup@0.not._is_empty_ht");
+    if (_is_empty_ht(ht_p)) goto failed_ret;
+
+    _dbg_print("hash_table_lookup@0._is_valid_hash_key");
+    if (!_is_valid_hash_key(key_p)) goto failed_ret;
+
+    _dbg_print("hash_table_lookup@0._is_valid_out_slot_handle_p");
+    if (!out_slot_handle_p) goto failed_ret;
+
+    _dbg_print("hash_table_lookup@1._ht_assert_intrnl_state");
+    _ht_assert_intrnl_state(ht_p);
 
     out_slot_handle_p->bucket_idx = NULL_IDX;
     out_slot_handle_p->slot_idx = NULL_IDX;
 
-    _dbg_print("hash_table_lookup@2.0 # get_bucket");
     int bucket_idx = key_p->hash % ht_p->bucket_count;
-    _dbg_print("hash_table_lookup@2.1 # bucket_idx=%d", bucket_idx);
     int slot_idx = ht_p->bucket_arr[bucket_idx];
-    unsigned int probc = 0;
+    _dbg_print("hash_table_lookup@2 # bucket_idx=%d; chain_head_idx=%d", bucket_idx, slot_idx);
+
     _dbg_print("hash_table_lookup@3.probe_loop.begin");
+    unsigned int probc = 0;
     while (probc < ht_p->slot_capacity && slot_idx != NULL_IDX) {
         hash_slot_t *slot_p = ht_get_slot(ht_p, slot_idx);
         _dbg_print(
@@ -252,89 +313,52 @@ int hash_table_lookup(
             return slot_idx;
         }
     probe_next_slot:
+        _dbg_print("hash_table_lookup@3.probe_loop.probe_next_slot");
         slot_idx = ht_next_slot(ht_p, slot_idx);
         ++probc;
     }
 
-    _dbg_print("hash_table_lookup@-1#failed\n");
+failed_ret:
+    _dbg_print("hash_table_lookup@-1.ret # failed\n");
     return NULL_IDX;
-}
-
-int hash_table_destroy_handle(
-    hash_table_t       *ht_p,
-    hash_slot_handle_t *slot_handle_p
-) {
-    (void)ht_p;
-    slot_handle_p->bucket_idx = NULL_IDX;
-    slot_handle_p->slot_idx = NULL_IDX;
-    return 0;
 }
 
 int hash_table_remove(
     hash_table_t       *ht_p,
     hash_slot_handle_t *slot_handle_p
 ) {
-    _dbg_print("hash_table_remove@0.0 # assert_valid_ht_ptrs");
-    assert(
-        ht_p && ht_p->slot_arr && ht_p->cntl_arr &&
-        ht_p->slot_free_list && ht_p->bucket_arr
-    );
-    _dbg_print("hash_table_remove@0.1 # assert_ht_slot_count");
-    assert(ht_p->slot_count);
-    _dbg_print("hash_table_remove@0.2 # assert_valid_slot_handle");
-    assert(slot_handle_p);
-    assert(
-        slot_handle_p->slot_idx >= 0 &&
-        slot_handle_p->slot_idx < (int)ht_p->slot_capacity
-    );
-    assert(
-        slot_handle_p->bucket_idx >= 0 ||
-        slot_handle_p->bucket_idx < (int)ht_p->bucket_count
-    );
-    _dbg_print("hash_table_remove@0.2 # assert_entry_occupied");
-    assert(ht_p->cntl_arr[slot_handle_p->slot_idx] == SLOT_OCCUPIED);
-    if (
-        !ht_p || !ht_p->slot_arr || !ht_p->cntl_arr ||
-        !ht_p->slot_free_list || !ht_p->bucket_arr ||
-        !ht_p->slot_count ||
-        !slot_handle_p ||
-        slot_handle_p->slot_idx < 0 ||
-        slot_handle_p->slot_idx >= (int)ht_p->slot_capacity ||
-        slot_handle_p->bucket_idx < 0 ||
-        slot_handle_p->bucket_idx >= (int)ht_p->bucket_count ||
-        ht_p->cntl_arr[slot_handle_p->slot_idx] != SLOT_OCCUPIED
-    ) return -1;
+    _dbg_print("hash_table_remove@0._is_valid_storage_ht");
+    if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_remove@1 # assert_valid_ht_intrnl_state");
-    assert(ht_p->slot_count <= ht_p->bucket_count);
-    assert(ht_p->slot_count <= ht_p->slot_capacity);
-    assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
-    assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
+    _dbg_print("hash_table_remove@0.not._is_empty_ht");
+    if (_is_empty_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_remove@2.0 # get prev && next idx");
-    int *prev_idx_p = &ht_prev_slot(ht_p, slot_handle_p->slot_idx);
-    int *next_idx_p = &ht_next_slot(ht_p, slot_handle_p->slot_idx);
-    /* assert linked list validity here */
-    _dbg_print("hash_table_remove@2.1 # assert bucket chain integrity");
-    assert(
-        (*prev_idx_p != NULL_IDX) ?
-        ht_next_slot(ht_p, *prev_idx_p) == slot_handle_p->slot_idx
-        : 1
-    );
-    assert(
-        (*next_idx_p != NULL_IDX) ?
-        ht_prev_slot(ht_p, *next_idx_p) == slot_handle_p->slot_idx
-        : 1
-    );
+    _dbg_print("hash_table_remove@0._is_valid_ht_slot_handle");
+    if (!_is_valid_ht_slot_handle(ht_p, slot_handle_p)) goto failed_ret;
+
+    _dbg_print("hash_table_remove@0._is_slot_occupied");
+    if (!_is_slot_occupied(ht_p, slot_handle_p->slot_idx)) goto failed_ret;
+
+    _dbg_print("hash_table_remove@1._ht_assert_intrnl_state");
+    _ht_assert_intrnl_state(ht_p);
+
+    _dbg_print("hash_table_remove@2.get_slot # slot, prev, next");
+    int *slot_idx_p = &slot_handle_p->slot_idx;
+    int *prev_idx_p = &ht_prev_slot(ht_p, *slot_idx_p);
+    int *next_idx_p = &ht_next_slot(ht_p, *slot_idx_p);
+
+    _dbg_print("hash_table_remove@2._ht_assert_slot_chain_integrity");
+    _ht_assert_slot_chain_integrity(ht_p, *slot_idx_p, *prev_idx_p, *next_idx_p);
 
     _dbg_print("hash_table_remove@3 # get bucket ptr");
     int *bucket_p = &ht_p->bucket_arr[slot_handle_p->bucket_idx];
+
     /* unlink */
-    _dbg_print("hash_table_remove@3.1 # unlink slot prev");
+    _dbg_print("hash_table_remove@4 # unlink");
     if (*prev_idx_p != NULL_IDX)
         ht_next_slot(ht_p, *prev_idx_p) = *next_idx_p;
     else {
-        _dbg_print("hash_table_remove@3.1.a # slot is chain head");
+        _dbg_print("hash_table_remove@4.b # slot is chain head");
         _dbg_print(
             "bucket_idx, chain_head, slot_idx: %d,%d,%d",
             slot_handle_p->bucket_idx,
@@ -344,102 +368,63 @@ int hash_table_remove(
         assert(ht_p->bucket_arr[slot_handle_p->bucket_idx] == slot_handle_p->slot_idx);
         *bucket_p = *next_idx_p;
     }
-    _dbg_print("hash_table_remove@3.2 # unlink slot prev");
     if (*next_idx_p != NULL_IDX)
         ht_prev_slot(ht_p, *next_idx_p) = *prev_idx_p;
 
-    _dbg_print("hash_table_remove@4 # free slot");
+    _dbg_print("hash_table_remove@5 # free slot");
     ht_p->slot_free_list[slot_handle_p->slot_idx] = ht_p->free_head_idx;
     ht_p->free_head_idx = slot_handle_p->slot_idx;
     ht_p->cntl_arr[ht_p->free_head_idx] = SLOT_EMPTY;
 
-    _dbg_print("hash_table_remove@5 # destroy handle && --ht_p->slot_count");
+    _dbg_print("hash_table_remove@6 # destroy handle && --ht_p->slot_count");
     slot_handle_p->bucket_idx = NULL_IDX;
     slot_handle_p->slot_idx = NULL_IDX;
     --ht_p->slot_count;
 
     if (*bucket_p != NULL_IDX) {
-        _dbg_print("hash_table_remove@6 # get new prev/next of new bucket");
-        prev_idx_p = &ht_prev_slot(ht_p, *bucket_p);
-        next_idx_p = &ht_next_slot(ht_p, *bucket_p);
-        /* assert linked list validity here */
-        _dbg_print("hash_table_remove@6.1 # assert bucket chain validity");
-        assert(
-            (*prev_idx_p != NULL_IDX) ?
-            ht_next_slot(ht_p, *prev_idx_p) == *bucket_p
-            : 1
-        );
-        assert(
-            (*next_idx_p != NULL_IDX) ?
-            ht_prev_slot(ht_p, *next_idx_p) == *bucket_p
-            : 1
-        );
+        _dbg_print("hash_table_remove@7._ht_assert_slot_chain_integrity");
+        int slot_idx = *bucket_p;
+        int prev_idx = ht_prev_slot(ht_p, slot_idx);
+        int next_idx = ht_next_slot(ht_p, slot_idx);
+        _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
     }
 
     _dbg_print("hash_table_remove@0.ret_success\n");
     return 0;
+failed_ret:
+    return -1;
 }
 
 const hash_slot_t *hash_table_get_slot(
     const hash_table_t         *ht_p,
     const hash_slot_handle_t   *slot_handle_p
 ) {
-    _dbg_print("hash_table_get_slot@0.0 # assert_valid_ptrs");
-    assert(
-        ht_p && ht_p->slot_arr && ht_p->cntl_arr &&
-        ht_p->slot_free_list && ht_p->bucket_arr
-    );
-    _dbg_print("hash_table_get_slot@0.1 # assert_ht_slot_count");
-    assert(ht_p->slot_count);
-    _dbg_print("hash_table_get_slot@0.2.0 # assert_valid_slot_idx");
-    assert(
-        slot_handle_p->slot_idx >= 0 &&
-        slot_handle_p->slot_idx < (int)ht_p->slot_capacity
-    );
-    _dbg_print("hash_table_get_slot@0.2.1 # assert_valid_bucket_idx");
-    assert(
-        slot_handle_p->bucket_idx >= 0 &&
-        slot_handle_p->bucket_idx < (int)ht_p->bucket_count
-    );
-    _dbg_print("hash_table_get_slot@0.3 # assert_slot_is_occupied");
-    assert(
-        ht_p->cntl_arr[slot_handle_p->slot_idx] == SLOT_OCCUPIED
-    );
-    if (
-        !ht_p || !ht_p->slot_arr || !ht_p->cntl_arr ||
-        !ht_p->slot_free_list || !ht_p->bucket_arr ||
-        !ht_p->slot_count ||
-        !slot_handle_p ||
-        slot_handle_p->slot_idx < 0 ||
-        slot_handle_p->slot_idx >= (int)ht_p->slot_capacity ||
-        slot_handle_p->bucket_idx < 0 ||
-        slot_handle_p->bucket_idx >= (int)ht_p->bucket_count ||
-        ht_p->cntl_arr[slot_handle_p->slot_idx] != SLOT_OCCUPIED
-    ) return NULL;
+    _dbg_print("hash_table_get_slot@0._is_valid_storage_ht");
+    if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_get_slot@1 # assert_valid_intrnl_state");
-    assert(ht_p->slot_count <= ht_p->bucket_count);
-    assert(ht_p->slot_count <= ht_p->slot_capacity);
-    assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
-    assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
+    _dbg_print("hash_table_get_slot@0.not._is_empty_ht");
+    if (_is_empty_ht(ht_p)) goto failed_ret;
 
-    _dbg_print("hash_table_get_slot@2 # ht_prev_slot, ht_next_slot");
-    int *prev_idx_p = &ht_prev_slot(ht_p, slot_handle_p->slot_idx);
-    int *next_idx_p = &ht_next_slot(ht_p, slot_handle_p->slot_idx);
-    /* assert linked list validity here */
-    assert(
-        (*prev_idx_p != NULL_IDX) ?
-        ht_next_slot(ht_p, *prev_idx_p) == slot_handle_p->slot_idx
-        : 1
-    );
-    assert(
-        (*next_idx_p != NULL_IDX) ?
-        ht_prev_slot(ht_p, *next_idx_p) == slot_handle_p->slot_idx
-        : 1
-    );
+    _dbg_print("hash_table_get_slot@0._is_valid_ht_slot_handle");
+    if (!_is_valid_ht_slot_handle(ht_p, slot_handle_p)) goto failed_ret;
+
+    _dbg_print("hash_table_get_slot@0._is_slot_occupied");
+    if (!_is_slot_occupied(ht_p, slot_handle_p->slot_idx)) goto failed_ret;
+
+    _dbg_print("hash_table_get_slot@1._ht_assert_intrnl_state");
+    _ht_assert_intrnl_state(ht_p);
+
+    _dbg_print("hash_table_get_slot@2._ht_assert_slot_chain_integrity");
+    int slot_idx = slot_handle_p->slot_idx;
+    int prev_idx = ht_prev_slot(ht_p, slot_idx);
+    int next_idx = ht_next_slot(ht_p, slot_idx);
+    _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
 
     _dbg_print("hash_table_get_slot@0.ret # ht_get_slot\n");
     return ht_get_slot(ht_p, slot_handle_p->slot_idx);
+failed_ret:
+    _dbg_print("hash_table_get_slot@-1.ret\n");
+    return NULL;
 }
 
 

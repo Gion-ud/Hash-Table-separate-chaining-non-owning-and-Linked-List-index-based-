@@ -72,4 +72,12 @@ static int _ht_erase_cstr_key(
     return hash_table_remove(ht_p, &hs_hndl);
 }
 
+static void ht_slot_handle_reset(
+    hash_slot_handle_t *slot_handle_p
+) {
+    if (!slot_handle_p) return;
+    slot_handle_p->bucket_idx = NULL_IDX;
+    slot_handle_p->slot_idx = NULL_IDX;
+}
+
 #endif /* _USING_HASH_TABLE_UTILS */

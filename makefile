@@ -4,8 +4,8 @@ all: ht.o libht.dll testht
 CFLAGS = \
 	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing \
 	-Wno-maybe-uninitialized -Wno-unused-function \
-	-D_DEBUG
-# -Wno-maybe-uninitialized
+	-Wno-maybe-uninitialized
+# -D_DEBUG
 
 list.o: src/list.c | build
 	cc -c $< -o build/$@ $(CFLAGS) -Iinclude

@@ -48,10 +48,7 @@ extern int hash_table_lookup(
     const hash_key_t       *key_p,
     hash_slot_handle_t     *out_slot_handle_p
 );
-extern int hash_table_destroy_handle(
-    hash_table_t       *ht_p,
-    hash_slot_handle_t *slot_handle_p
-);
+
 extern int hash_table_remove(
     hash_table_t       *ht_p,
     hash_slot_handle_t *slot_handle_p
