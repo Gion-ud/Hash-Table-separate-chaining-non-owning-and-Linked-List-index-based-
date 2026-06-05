@@ -24,7 +24,7 @@ struct _hash_table {
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <dbg_print.h>
+#include "dbg_print.h"
 
 hash_table_t *
 create_hash_table(
@@ -121,7 +121,7 @@ static inline int _is_valid_storage_ht(const hash_table_t *ht_p) {
     );
 }
 static inline void _ht_assert_intrnl_state(const hash_table_t *ht_p) {
-    assert(ht_p->slot_count <= ht_p->bucket_count);
+    // assert(ht_p->slot_count <= ht_p->bucket_count);
     assert(ht_p->slot_count <= ht_p->slot_capacity);
     assert(ht_p->slot_capacity >= HT_MIN_NSLOT);
     assert(ht_p->bucket_count >= HT_MIN_NBUCKET);
@@ -157,10 +157,7 @@ static inline int _is_slot_occupied(
 #define _is_empty_ht(ht_p) (!(ht_p)->slot_count)
 #define _is_not_empty_ht(ht_p) (!_is_empty_ht(ht_p))
 static inline int _is_full_ht(const hash_table_t *ht_p) {
-    return (
-        ht_p->slot_count >= ht_p->slot_capacity &&
-        ht_p->slot_count >= ht_p->bucket_count
-    );
+    return (ht_p->slot_count >= ht_p->slot_capacity);
 }
 #define _ht_has_rem_capacity(ht_p) (!_is_full_ht(ht_p))
 
@@ -427,4 +424,10 @@ failed_ret:
     return NULL;
 }
 
+unsigned int hash_table_slot_capacity(const hash_table_t *ht_p) {
+    return (!ht_p) ? 0 : ht_p->slot_capacity;
+}
+unsigned int hash_table_slot_count(const hash_table_t *ht_p) {
+    return (!ht_p) ? 0 : ht_p->slot_capacity;
+}
 

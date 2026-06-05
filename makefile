@@ -1,11 +1,11 @@
-all: ht.o libht.dll testht
+#all: ht.o libht.dll testht
 #all: list.o liblist.dll testls
+all: kvarena.o tskva
 
 CFLAGS = \
-	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing \
-	-Wno-maybe-uninitialized -Wno-unused-function \
-	-Wno-maybe-uninitialized
-# -D_DEBUG
+	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing # -D_DEBUG
+#	-Wno-maybe-uninitialized \
+#	-Wno-unused-function
 
 list.o: src/list.c | build
 	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
@@ -16,7 +16,7 @@ liblist.dll: build/list.o | bin
 		-Wl,--out-implib,lib/$@.a \
 		-Wl,--output-def,lib/$@.def
 
-testls: src/testls.c lib/liblist.dll.a | bin
+testls: tests/testls.c lib/liblist.dll.a | bin
 	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -llist
 
 ht.o: src/hash_table.c | build
@@ -28,8 +28,14 @@ libht.dll: build/ht.o | bin
 		-Wl,--out-implib,lib/$@.a \
 		-Wl,--output-def,lib/$@.def
 
-testht: src/testht.c lib/libht.dll.a | bin
+testht: tests/testht.c lib/libht.dll.a | bin
 	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lht
+
+kvarena.o: src/kvarena.c | build
+	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
+
+tskva: tests/tskva.c build/kvarena.o | bin
+	cc $^ -o bin/$@ $(CFLAGS) -Iinclude
 
 clean:
 	rm build/*o

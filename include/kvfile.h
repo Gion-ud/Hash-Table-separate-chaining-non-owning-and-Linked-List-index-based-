@@ -3,25 +3,18 @@
 #include <stdint.h>
 #include <assert.h>
 
-#define KV_FILE_MAGIC 0x46564BEFu
-#define KV_FILE_EOF_MARKER 0x464F452Eu
-#define KV_FILE_VERSION 0x0101u
-#define KV_FILE_HEADER_SIZE 32u
-#define KV_FILE_FOOTER_SIZE 8u
-#define KV_FILE_ENTRY_SIZE 20u
-#define KV_FILE_ALIGN 4u
-#define KV_FILE_FLAGS (1u << 0)
+typedef struct KVFileStream KVFileStream;
 
 typedef struct KVFileHeader {
     uint32_t    magic;          // [0]
     uint16_t    version;        // [1]
     uint16_t    flags;          // [2]
     uint32_t    align;          // [3]
-    uint32_t    entry_cnt;      // [4]
-    uint32_t    entrytab_off;   // [5]
-    uint32_t    data_off;       // [6]
-    uint32_t    footer_off;     // [7]
-    uint32_t    eof_off;        // [8]
+    uint32_t    entrycnt;       // [4]
+    uint32_t    entrytbloff;    // [5]
+    uint32_t    dataoff;        // [6]
+    uint32_t    footeroff;      // [7]
+    uint32_t    eofoff;         // [8]
 } KVFileHeader;
 
 typedef struct KVFileFooter {
@@ -36,6 +29,11 @@ typedef struct KVFileEntry {
     uint32_t    val_len;    // [3]
     uint32_t    val_off;    // [4]; offset to value blob from the start of data section
 } KVFileEntry;
+
+
+#define KV_FILE_HEADER_SIZE 32u
+#define KV_FILE_FOOTER_SIZE 8u
+#define KV_FILE_ENTRY_SIZE 20u
 
 static_assert(
     sizeof(KVFileHeader) == KV_FILE_HEADER_SIZE,

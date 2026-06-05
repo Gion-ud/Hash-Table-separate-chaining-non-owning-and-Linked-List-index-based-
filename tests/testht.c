@@ -7,7 +7,7 @@
 #include <string.h>
 
 
-#define NBUCKETS 8
+#define NBUCKETS 4
 #define NSLOTS 8
 
 typedef struct kv {
