@@ -70,7 +70,7 @@ KVArena *create_kvarena(
     memset(kva_p->cntl_arr, 0, entrycap * sizeof(*kva_p->cntl_arr));
 
     _dbg_print("create_kvarena@4.set_intrnl_state");
-    kva_p->align            = KVA_ALIGN_DEFAULT;
+    kva_p->align            = align;
     kva_p->entrycnt         = 0;
     kva_p->entrycap         = entrycap;
     kva_p->data_buf_len     = 0;
