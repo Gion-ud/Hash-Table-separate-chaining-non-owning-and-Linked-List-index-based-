@@ -39,7 +39,7 @@ int kvarena_is_full(KVArena *kva_p) {
     return (!kva_p) ? 0 : (kva_p->entrycnt >= kva_p->entrycap);
 }
 int kvarena_is_empty(KVArena *kva_p) {
-    return (!kva_p) ? 0 : (!!kva_p->entrycnt);
+    return (!kva_p) ? 0 : (!kva_p->entrycnt);
 }
 void *kvarena_entrytbl(KVArena *kva_p) {
     return (!kva_p || !kva_p->entrytbl) ? 0 : kva_p->entrytbl;
@@ -101,6 +101,7 @@ void destroy_kvarena(KVArena *kva_p) {
     _dbg_print("destroy_kvarena@2");
     if (kva_p->data_buf) free(kva_p->data_buf);
     if (kva_p->cntl_arr) free(kva_p->cntl_arr);
+    free(kva_p);
 dtor_ret:
     _dbg_print("destroy_kvarena@0.ret\n");
     return;
@@ -173,7 +174,7 @@ int32_t kvarena_push(
 
     _dbg_print("kvarena_push@4.check_if_realloc_databuf_required");
     if (new_off > kva_p->data_buf_size) {
-        uint32_t new_data_buf_size = (alloc_size > kva_p->entrycnt)
+        uint32_t new_data_buf_size = (alloc_size > kva_p->data_buf_len)
             ? new_off * 2 : kva_p->data_buf_len * 2;
 
         _dbg_print("kvarena_push@4.a.realloc");
