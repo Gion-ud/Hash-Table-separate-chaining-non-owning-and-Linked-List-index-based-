@@ -58,6 +58,8 @@ extern uint32_t kvarena_data_len(KVArena *kva_p);
 extern uint32_t kvarena_data_size(KVArena *kva_p);
 extern int kvarena_is_full(KVArena *kva_p);
 extern int kvarena_is_empty(KVArena *kva_p);
+extern void *kvarena_data(KVArena *kva_p);
+extern void *kvarena_entrytbl(KVArena *kva_p);
 
 extern int32_t kvarena_push_auto_grow(
     KVArena            *kva_p,

@@ -1,9 +1,9 @@
 #all: ht.o libht.dll testht
 #all: list.o liblist.dll testls
-all: kvarena.o tskva
+all: kvarena.o kvfile.o tskva
 
 CFLAGS = \
-	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing # -D_DEBUG
+	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing -D_DEBUG
 #	-Wno-maybe-uninitialized \
 #	-Wno-unused-function
 
@@ -34,8 +34,11 @@ testht: tests/testht.c lib/libht.dll.a | bin
 kvarena.o: src/kvarena.c | build
 	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
 
-tskva: tests/tskva.c build/kvarena.o | bin
-	cc $^ -o bin/$@ $(CFLAGS) -Iinclude
+kvfile.o: src/kvfile.c | build
+	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
+
+tskva: tests/tskva.c build/kvarena.o build/kvfile.o | bin
+	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lmman -lz
 
 clean:
 	rm build/*o

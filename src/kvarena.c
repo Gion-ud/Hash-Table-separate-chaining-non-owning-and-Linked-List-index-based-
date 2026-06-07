@@ -39,8 +39,15 @@ int kvarena_is_full(KVArena *kva_p) {
     return (!kva_p) ? 0 : (kva_p->entrycnt >= kva_p->entrycap);
 }
 int kvarena_is_empty(KVArena *kva_p) {
-    return (!kva_p) ? 0 : (kva_p->entrycnt);
+    return (!kva_p) ? 0 : (!!kva_p->entrycnt);
 }
+void *kvarena_entrytbl(KVArena *kva_p) {
+    return (!kva_p || !kva_p->entrytbl) ? 0 : kva_p->entrytbl;
+}
+void *kvarena_data(KVArena *kva_p) {
+    return (!kva_p || !kva_p->data_buf) ? 0 : kva_p->data_buf;
+}
+
 
 
 KVArena *create_kvarena(
