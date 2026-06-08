@@ -3,7 +3,8 @@
 all: kvarena.o kvfile.o tskva
 
 CFLAGS = \
-	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing -D_DEBUG
+	-O0 -Wall -Wextra -fno-exceptions -fno-strict-aliasing # -D_DEBUG -g # -fsanitize=address
+#	-O2
 #	-Wno-maybe-uninitialized \
 #	-Wno-unused-function
 

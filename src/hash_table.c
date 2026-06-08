@@ -1,8 +1,7 @@
 /*
- * Refractor required;
- * organise if early return checks / asserts
- * John Wood, 2 June 2026
-*/
+ * Implm of now-owning hash table with
+ * stable slot idx and double libked list chaining
+ */
 
 #define _HASH_TABLE_INTRNL_IMPLM
 #include <hash_table.h>

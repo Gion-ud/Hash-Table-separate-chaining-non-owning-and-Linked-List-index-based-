@@ -1,27 +1,11 @@
-/* more testing */
-
 #define _HASH_TABLE_INTRNL_IMPLM
 #include <kvfile.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <string.h>
-#include "dbg_print.h"
-#include "alignoff.h"
-#include "hash_key.h"
-#include "kvfile.h"
-#include <kvarena.h>
+#include "_kvarena.inl"
 
-struct KVArena {
-    KVFileEntry    *entrytbl;       // [0]
-    unsigned char  *data_buf;       // [1]
-    uint8_t        *cntl_arr;       // [2]
-    uint32_t        align;          // [3]
-    uint32_t        entrycnt;       // [4]
-    uint32_t        entrycap;       // [5]
-    uint32_t        data_buf_len;   // [6]
-    uint32_t        data_buf_size;  // [7]
-};
 
 uint32_t kvarena_size(KVArena *kva_p) {
     return (!kva_p) ? 0 : kva_p->entrycnt;
@@ -107,14 +91,6 @@ dtor_ret:
     return;
 }
 
-static inline void _kva_assert_intrnl_state(KVArena *kva_p) {
-    assert(kva_p->entrycap >= KVA_MIN_ENTC);
-    assert(kva_p->data_buf_size >= KVA_MIN_BUFSIZE);
-    assert(kva_p->entrycnt <= kva_p->entrycap);
-    assert(kva_p->data_buf_len <= kva_p->data_buf_size);
-    assert(is_pow2(kva_p->align));
-    assert(kva_p->data_buf_len % kva_p->align == 0);
-}
 
 static int32_t _kvarena_insert_from_entview(
     KVArena            *dest_kva_p,
