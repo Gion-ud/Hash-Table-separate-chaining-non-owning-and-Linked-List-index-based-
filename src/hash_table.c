@@ -427,6 +427,6 @@ unsigned int hash_table_slot_capacity(const hash_table_t *ht_p) {
     return (!ht_p) ? 0 : ht_p->slot_capacity;
 }
 unsigned int hash_table_slot_count(const hash_table_t *ht_p) {
-    return (!ht_p) ? 0 : ht_p->slot_capacity;
+    return (!ht_p) ? 0 : ht_p->slot_count;
 }
 
