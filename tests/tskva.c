@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <kvimg.h>
 
 #ifdef _DEBUG
 #include <compute_crc32.h>
@@ -93,44 +94,41 @@ int main() {
     tstkva_put_kv_loop(kva_p, kvtbl_len, kvtbl);
     tstkva_get_kv_loop(kva_p);
     tstkva_compact(&kva_p);
-    kvarena_dump_kvfile(kva_p, "kv.bin");
+    unsigned char *buf = NULL;
+    size_t buf_len = 0;
+    int ret = kvarena_build_memimg_buf(kva_p, &buf, &buf_len);
+    assert(ret >= 0);
+    FILE *fp = fopen("data.bin", "wb+");
+    assert(fp);
+    size_t n = fwrite(buf, 1, buf_len, fp);
+    assert(n == buf_len);
+    fclose(fp);
+    kvarena_destroy_memimg_buf(kva_p, &buf);
 
     destroy_kvarena(kva_p);
 
 
-    KVFile kvf = {0};
-    KVFile_Init(&kvf);
-    int fd = open("kv.bin", O_RDONLY);
+    KVFile *kvfp = Create_KVFile();
+    int fd = open("data.bin", O_RDONLY);
     assert(fd != -1);
-    int ret = KVFileReader_MapFile(&kvf, fd);
+    ret = KVFileReader_MapFile(kvfp, fd);
     assert(ret >= 0);
-
-    KVFileHeader *hdr_p     = kvf.header_p;
-    KVFileEntry *etbl_p     = kvf.entrytbl;
-    unsigned char *data_p   = kvf.data_p;
-    ptrdiff_t _fbufdiff = kvf.buf_end - kvf.buf_base;
-    assert(_fbufdiff > 0);
-    uint32_t filesize = (uint32_t)_fbufdiff;
-
-    for (uint32_t i = 0u; i < hdr_p->entrycnt; ++i) {
-        const KVFileEntry *ep = &etbl_p[i];
-        assert(ep->key_off + ep->key_len + ep->val_len < filesize);
-        assert(ep->key_off < ep->val_off);
-
-        char *key_p = (char*)data_p + ep->key_off;
-        char *val_p = (char*)data_p + ep->val_off;
-
-        printf("[%u] %s %.*s\n", i, key_p, ep->val_len, val_p);
+    for (uint32_t i = 0u; i < kvfp->entrycnt; ++i) {
+        const KVFileEntry *ep = KVFileReader_GetFileEntryChked(kvfp, i);
+        assert(ep);
+        KVArenaEntryView ev = {0};
+        KVFileReader_EntryViewFromFileEntry(kvfp, ep, &ev);
+        printf("[%u] %s %.*s\n", i, ev.key_p, ev.val_len, (char*)ev.val_p);
     }
-
-    ret = KVFileReader_UnmapFile(&kvf);
-    assert(ret >= 0);
+    KVFileReader_UnmapFile(kvfp);
 
     close(fd);
-    KVFile_Fini(&kvf);
+    Destroy_KVFile(kvfp);
 
     return 0;
 }
+
+#include "../src/alignoff.h"
 
 int tstkva_put_kv_loop(
     KVArena    *kva_p,
@@ -190,60 +188,5 @@ void tstkva_compact(
     puts("-- tstkva_compact --");
     int ret = kvarena_compact(kva_pp);
     assert(ret >= 0);
-    puts("");
-}
-void kvarena_dump_kvfile(
-    KVArena    *kva_p,
-    const char *filename
-) {
-    assert(kva_p && filename);
-    puts("-- kvarena_dump_kvfile --");
-    assert(kvarena_size(kva_p));
-    KVFile kvf = {0};
-    KVFile_Init(&kvf);
-    int ret =
-        KVFile_CreateBuilderBuffer(
-            &kvf,
-            kvarena_data_len(kva_p),
-            kvarena_size(kva_p),
-            KVA_ALIGN_DEFAULT
-        );
-    assert(ret >= 0);
-    assert(kvf.entrycnt);
-
-    const KVFileHeader *hdr_p = KVFileBuilder_WriteFileHeader(&kvf);
-    assert(hdr_p);
-
-    const KVFileEntry *etbl_p =
-        KVFileBuilder_WriteEntryTable(
-            &kvf,
-            (KVFileEntry*)kvarena_entrytbl(kva_p)
-        );
-    assert(etbl_p);
-
-    const unsigned char *data_p =
-        KVFileBuilder_WriteDataSection(&kvf, kvarena_data(kva_p));
-    assert(data_p);
-
-    const KVFileFooter *ftr_p = KVFileBuilder_WriteFileFooter(&kvf);
-    assert(ftr_p);
-
-    const unsigned char *kvfbuf_base = KVFileBuilder_DataBufferBase(&kvf);
-    const unsigned char *kvfbuf_end = KVFileBuilder_DataBufferEnd(&kvf);
-    assert(kvfbuf_base);
-    assert(kvfbuf_end);
-    ptrdiff_t kvfbuf_len = kvfbuf_end - kvfbuf_base;
-    assert(kvfbuf_len > 0);
-
-
-
-    FILE *fp = fopen("kv.bin", "wb+");
-    assert(fp);
-    size_t n = fwrite(kvfbuf_base, 1, (size_t)kvfbuf_len, fp);
-    assert(n == (size_t)kvfbuf_len);
-    fclose(fp);
-
-    KVFile_DestroyBuilderBuffer(&kvf);
-    KVFile_Fini(&kvf);
     puts("");
 }

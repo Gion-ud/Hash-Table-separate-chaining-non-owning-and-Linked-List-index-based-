@@ -3,8 +3,8 @@
 all: kvarena.o kvfile.o tskva
 
 CFLAGS = \
-	-O0 -Wall -Wextra -fno-exceptions -fno-strict-aliasing # -D_DEBUG -g # -fsanitize=address
-#	-O2
+	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing # -D_DEBUG -g # -fsanitize=address
+#	-O0
 #	-Wno-maybe-uninitialized \
 #	-Wno-unused-function
 
@@ -38,7 +38,7 @@ kvarena.o: src/kvarena.c | build
 kvfile.o: src/kvfile.c | build
 	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
 
-tskva: tests/tskva.c build/kvarena.o build/kvfile.o | bin
+tskva: tests/tskva.c src/kvimg.c build/kvarena.o build/kvfile.o | bin
 	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lmman -lz
 
 clean:

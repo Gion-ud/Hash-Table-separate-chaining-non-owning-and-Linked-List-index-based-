@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include "alignoff.h"
 #include <compute_crc32.h>
+#include <assert.h>
 
 #define KV_FILE_MAGIC 0x46564BEFu
 #define KV_FILE_EOF_MARKER 0x464F452Eu
@@ -280,4 +281,28 @@ int KVFileReader_UnmapFile(KVFile *kvf_p) {
 failed:
     _dbg_print("KVFileReader_UnmapFile@-1.failed.ret\n");
     return -1;
+}
+
+
+const KVFileEntry *KVFileReader_GetFileEntryChked(KVFile *kvf_p, uint32_t ent_idx) {
+    _dbg_print("KVFileReader_GetFileEntryChked@0");
+    if (!kvf_p || ent_idx >= kvf_p->entrycnt) goto failed;
+
+    _dbg_print("KVFileReader_GetFileEntryChked@1");
+    const KVFileEntry *ep = &kvf_p->entrytbl[ent_idx];
+    if (!ep->key_len || !ep->val_len) goto failed;
+
+    _dbg_print("KVFileReader_GetFileEntryChked@2");
+    if (ep->val_off != ep->key_off + align_off(ep->key_len + 1, kvf_p->align)) goto failed;
+
+    _dbg_print("KVFileReader_GetFileEntryChked@3");
+    uint32_t next_off = (ent_idx < kvf_p->entrycnt - 1)
+        ? (ep + 1)->key_off : kvf_p->data_len;
+    if (next_off != ep->val_off + align_off(ep->val_len, kvf_p->align)) goto failed;
+
+    _dbg_print("KVFileReader_GetFileEntryChked@0.ret\n");
+    return ep;
+failed:
+    _dbg_print("KVFileReader_GetFileEntryChked@-1.failed.ret\n");
+    return NULL;
 }
