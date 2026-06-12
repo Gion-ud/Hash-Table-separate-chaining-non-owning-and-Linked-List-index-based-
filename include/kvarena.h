@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include "hash_key.h"
+#include "kvht_key.h"
 
 
 #ifndef NULL_IDX
@@ -35,7 +35,7 @@ extern KVArena *create_kvarena(
 extern void destroy_kvarena(KVArena *kva_p);
 extern int32_t kvarena_push(
     KVArena            *kva_p,
-    const hash_key_t   *hash_key_p,
+    const kvht_key_t   *kvht_key_p,
     const void         *data,
     uint32_t            data_len
 );
@@ -63,7 +63,7 @@ extern void *kvarena_entrytbl(KVArena *kva_p);
 
 extern int32_t kvarena_push_auto_grow(
     KVArena            *kva_p,
-    const hash_key_t   *hash_key_p,
+    const kvht_key_t   *kvht_key_p,
     const void         *data,
     uint32_t            data_len
 );

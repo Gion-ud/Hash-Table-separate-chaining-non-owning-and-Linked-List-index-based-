@@ -4,7 +4,7 @@
 #include <kvfile.h>
 #include "dbg_print.h"
 #include "alignoff.h"
-#include <hash_key.h>
+#include <kvht_key.h>
 
 struct KVArena {
     KVFileEntry    *entrytbl;       // [0]

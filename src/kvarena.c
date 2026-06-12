@@ -124,14 +124,14 @@ static int32_t _kvarena_insert_from_entview(
 
 int32_t kvarena_push(
     KVArena            *kva_p,
-    const hash_key_t   *hash_key_p,
+    const kvht_key_t   *kvht_key_p,
     const void         *data,
     uint32_t            data_len
 ) {
     _dbg_print("kvarena_push@0.validation");
     if (!kva_p || !kva_p->entrytbl || !kva_p->data_buf)
         goto failed_ret;
-    if (!hash_key_p || !hash_key_p->key || !hash_key_p->key_len)
+    if (!kvht_key_p || !kvht_key_p->key || !kvht_key_p->key_len)
         goto failed_ret;
     if (!data || !data_len) goto failed_ret;
 
@@ -143,7 +143,7 @@ int32_t kvarena_push(
 
     _dbg_print("kvarena_push@3");
     uint32_t entryoff = kva_p->data_buf_len;
-    uint32_t key_size_aligned = align_off(hash_key_p->key_len + 1, kva_p->align);
+    uint32_t key_size_aligned = align_off(kvht_key_p->key_len + 1, kva_p->align);
     uint32_t data_size_aligned = align_off(data_len, kva_p->align);
     uint32_t alloc_size = key_size_aligned + data_size_aligned;
     uint32_t new_off = entryoff + alloc_size;
@@ -170,8 +170,8 @@ int32_t kvarena_push(
     uint32_t idx = kva_p->entrycnt;
     assert(kva_p->cntl_arr[idx] == KVA_ENT_EMPTY);
 
-    kva_p->entrytbl[idx].key_hash   = hash_key_p->hash;
-    kva_p->entrytbl[idx].key_len    = hash_key_p->key_len;
+    kva_p->entrytbl[idx].key_hash   = kvht_key_p->hash;
+    kva_p->entrytbl[idx].key_len    = kvht_key_p->key_len;
     kva_p->entrytbl[idx].key_off    = entryoff;
     kva_p->entrytbl[idx].val_len    = data_len;
     kva_p->entrytbl[idx].val_off    = entryoff + key_size_aligned;
@@ -182,7 +182,7 @@ int32_t kvarena_push(
     unsigned char *_dest_key_p = kva_p->data_buf + kva_p->entrytbl[idx].key_off;
     memcpy(
         _dest_key_p,
-        hash_key_p->key,
+        kvht_key_p->key,
         kva_p->entrytbl[idx].key_len
     );
     _dest_key_p[kva_p->entrytbl[idx].key_len] = '\0'; // NUL termination
@@ -207,7 +207,7 @@ failed_ret:
 
 int32_t kvarena_push_auto_grow(
     KVArena            *kva_p,
-    const hash_key_t   *hash_key_p,
+    const kvht_key_t   *kvht_key_p,
     const void         *data,
     uint32_t            data_len
 ) {
@@ -220,7 +220,7 @@ int32_t kvarena_push_auto_grow(
         if (ret < 0) goto failed_ret;
     }
     _dbg_print("kvarena_push_auto_grow@0.ret.kvarena_push\n");
-    return kvarena_push(kva_p, hash_key_p, data, data_len);
+    return kvarena_push(kva_p, kvht_key_p, data, data_len);
 failed_ret:
     _dbg_print("kvarena_push_auto_grow@-1.failed_ret\n");
     return NULL_IDX;

@@ -1,6 +1,7 @@
-#all: ht.o libht.dll testht
-#all: list.o liblist.dll testls
-all: kvarena.o kvfile.o tskva
+all: \
+	kvht.o kvarena.o kvfile.o kvimg.o \
+	libkv.dll \
+	tskv
 
 CFLAGS = \
 	-O2 -Wall -Wextra -fno-exceptions -fno-strict-aliasing # -D_DEBUG -g # -fsanitize=address
@@ -8,38 +9,28 @@ CFLAGS = \
 #	-Wno-maybe-uninitialized \
 #	-Wno-unused-function
 
-list.o: src/list.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
-
-liblist.dll: build/list.o | bin
-	cc -shared $< -o bin/$@ $(CFLAGS) \
-		-Wl,--kill-at \
-		-Wl,--out-implib,lib/$@.a \
-		-Wl,--output-def,lib/$@.def
-
-testls: tests/testls.c lib/liblist.dll.a | bin
-	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -llist
-
-ht.o: src/hash_table.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
-
-libht.dll: build/ht.o | bin
-	cc -shared $< -o bin/$@ $(CFLAGS) \
-		-Wl,--kill-at \
-		-Wl,--out-implib,lib/$@.a \
-		-Wl,--output-def,lib/$@.def
-
-testht: tests/testht.c lib/libht.dll.a | bin
-	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lht
+kvht.o: src/kvht.c | build
+	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
 
 kvarena.o: src/kvarena.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
+	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
 
 kvfile.o: src/kvfile.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude
+	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
 
-tskva: tests/tskva.c src/kvimg.c build/kvarena.o build/kvfile.o | bin
-	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lmman -lz
+kvimg.o: src/kvimg.c | build
+	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
+
+libkv.dll: build/kvht.o build/kvarena.o build/kvfile.o build/kvimg.o | bin
+	cc -shared $^ -o bin/$@ $(CFLAGS) \
+		-Wl,--kill-at \
+		-Wl,--out-implib,lib/$@.a \
+		-Wl,--output-def,lib/$@.def \
+		-Llib -lmman -lz
+
+tskv: tests/tskv.c lib/libkv.dll.a | bin
+	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib
+
 
 clean:
 	rm build/*o
