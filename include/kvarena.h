@@ -3,6 +3,9 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "kvht_key.h"
+#include "kvfile.h"
+
+typedef KVFileEntry KVArenaEntry;
 
 
 #ifndef NULL_IDX
@@ -47,7 +50,7 @@ extern int kvarena_mark_dead(
 );
 extern int kvarena_compact(KVArena **kva_pp);
 extern int32_t kvarena_get(
-    KVArena            *kva_p,
+    const KVArena      *kva_p,
     uint32_t            ent_idx,
     KVArenaEntryView   *out_entview_p
 );
@@ -67,3 +70,15 @@ extern int32_t kvarena_push_auto_grow(
     const void         *data,
     uint32_t            data_len
 );
+
+extern const KVArenaEntry *kvarena_get_entry(
+    const KVArena  *kva_p,
+    uint32_t        ent_idx
+);
+extern const KVArenaEntryView *kvarena_entry_to_entview(
+    const KVArena      *kva_p,
+    const KVArenaEntry *ent_p,
+    KVArenaEntryView   *out_entview_p
+);
+
+

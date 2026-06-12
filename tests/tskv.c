@@ -34,6 +34,9 @@ extern void tskv_erase_kv_ents(
 extern void tskv_compact(
     KVArena   **kva_pp
 );
+extern void tskv_erase_all(
+    KVArena    *kva_p
+);
 
 
 cstr_kv_t kvtbl[] = {
@@ -63,6 +66,11 @@ int main() {
 
     tskv_put_kv_loop(kva_p, kvtbl_len, kvtbl);
     tskv_get_kv_loop(kva_p);
+    tskv_erase_all(kva_p);
+    tskv_get_kv_loop(kva_p);
+    tskv_put_kv_loop(kva_p, kvtbl_len, kvtbl);
+    tskv_get_kv_loop(kva_p);
+    tskv_compact(&kva_p);
 
     uint32_t entc = kvarena_size(kva_p);
     kvht_t *ht_p = create_kvht(entc, entc);
@@ -72,28 +80,35 @@ int main() {
     for (uint32_t i = 0u; i < entc; ++i) {
         KVArenaEntryView ev = {0};
         printf("kv_put@line%u.loop[%u]\n", __LINE__, i);
-        int ret = kvarena_get(kva_p, i, &ev);
-        if (ret == NULL_IDX) continue;
+        __auto_type ent_p = kvarena_get_entry(kva_p, i);
+        if (!ent_p) continue;
+        __auto_type _evp = kvarena_entry_to_entview(kva_p, ent_p, &ev);
+        assert(_evp);
         kvht_key_t key = {
             .key        = ev.key_p,
             .key_len    = ev.key_len,
             .hash       = ev.key_hash
         };
-        kvht_insert(ht_p, &key, &kvtbl[i]);
+        kvht_insert(ht_p, &key, _evp);
     }
+
     puts("-----------------");
     for (uint32_t i = 0u; i < entc; ++i) {
         KVArenaEntryView ev = {0};
         printf("kv_get@line%u.loop[%u]\n", __LINE__, i);
         int ret = kvarena_get(kva_p, i, &ev);
-        if (ret == NULL_IDX) continue;
+        assert(ret != NULL_IDX);
         kvht_key_t key = {0};
         make_hash_key_from_cstr(&key, kvtbl[i].key);
         kvht_slot_handle_t h = {0};
-        kvht_lookup(ht_p, &key, &h);
-        kvht_slot_t *sp = kvht_get_slot(ht_p, &h);
-        printf("%s -> %s\n", key.key, (char*)((cstr_kv_t*)sp->data)->value);
+        ret = kvht_lookup(ht_p, &key, &h);
+        assert(ret >= 0);
+        __auto_type sp = kvht_get_slot(ht_p, &h);
+        assert(sp);
+        KVArenaEntryView *evp = (KVArenaEntryView*)sp->data;
+        printf("%s -> %.*s\n", key.key, (int)evp->val_len, (char*)evp->val_p);
     }
+    puts("-----------------");
 
 
 
@@ -182,6 +197,21 @@ void tskv_erase_kv_ents(
         int ret = kvarena_mark_dead(kva_p, ent_idx_arr[i]);
         if (ret < 0) {
             printf("kv_erase@loop[%u].ent[%u] failed\n", i, ent_idx_arr[i]);
+        }
+    }
+    puts("");
+}
+void tskv_erase_all(
+    KVArena    *kva_p
+) {
+    assert(kva_p);
+    puts("-- tskv_erase_all --");
+    uint32_t entc = kvarena_size(kva_p);
+    for (uint32_t i = 0u; i < entc; ++i) {
+        printf("kv_erase@line%u.loop[%u]\n", __LINE__, i);
+        int ret = kvarena_mark_dead(kva_p, i);
+        if (ret < 0) {
+            printf("kv_erase@loop[%u] failed\n", i);
         }
     }
     puts("");

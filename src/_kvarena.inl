@@ -17,7 +17,7 @@ struct KVArena {
     uint32_t        data_buf_size;  // [7]
 };
 
-static inline void _kva_assert_intrnl_state(KVArena *kva_p) {
+static inline void _kva_assert_intrnl_state(const KVArena *kva_p) {
     assert(kva_p->entrycap >= KVA_MIN_ENTC);
     assert(kva_p->data_buf_size >= KVA_MIN_BUFSIZE);
     assert(kva_p->entrycnt <= kva_p->entrycap);

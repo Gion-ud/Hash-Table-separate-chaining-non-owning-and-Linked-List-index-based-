@@ -250,7 +250,7 @@ failed_ret:
 }
 
 int32_t kvarena_get(
-    KVArena            *kva_p,
+    const KVArena      *kva_p,
     uint32_t            ent_idx,
     KVArenaEntryView   *out_entview_p
 ) {
@@ -276,6 +276,43 @@ int32_t kvarena_get(
 failed_ret:
     _dbg_print("kvarena_get@-1.failed_ret\n");
     return NULL_IDX;
+}
+
+const KVArenaEntry *kvarena_get_entry(
+    const KVArena  *kva_p,
+    uint32_t        ent_idx
+) {
+    _dbg_print("kvarena_get_entry@0.validation");
+    if (!kva_p || !kva_p->entrytbl || !kva_p->data_buf) goto failed_ret;
+    if (ent_idx >= kva_p->entrycnt) goto failed_ret;
+    if (kva_p->cntl_arr[ent_idx] != KVA_ENT_INUSE) goto failed_ret;
+
+    _dbg_print("kvarena_get_entry@0.ret\n");
+    return &kva_p->entrytbl[ent_idx];
+failed_ret:
+    _dbg_print("kvarena_get_entry@-1.failed_ret\n");
+    return NULL;
+}
+
+const KVArenaEntryView *kvarena_entry_to_entview(
+    const KVArena      *kva_p,
+    const KVArenaEntry *ent_p,
+    KVArenaEntryView   *out_entview_p
+) {
+    _dbg_print("kvarena_entry_to_entview@0.validation");
+    if (!kva_p || !kva_p->entrytbl || !kva_p->data_buf || !ent_p) goto failed_ret;
+
+    out_entview_p->key_hash = ent_p->key_hash;
+    out_entview_p->key_p    = (char*)kva_p->data_buf + ent_p->key_off;
+    out_entview_p->key_len  = ent_p->key_len;
+    out_entview_p->val_p    = kva_p->data_buf + ent_p->val_off;
+    out_entview_p->val_len  = ent_p->val_len;
+
+    _dbg_print("kvarena_entry_to_entview@0.ret\n");
+    return out_entview_p;
+failed_ret:
+    _dbg_print("kvarena_entry_to_entview@-1.failed_ret\n");
+    return NULL;
 }
 
 

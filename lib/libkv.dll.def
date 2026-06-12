@@ -27,19 +27,21 @@ EXPORTS
     kvarena_data_len @26
     kvarena_data_size @27
     kvarena_destroy_memimg_buf @28
-    kvarena_entrytbl @29
-    kvarena_get @30
-    kvarena_grow @31
-    kvarena_is_empty @32
-    kvarena_is_full @33
-    kvarena_mark_dead @34
-    kvarena_pop @35
-    kvarena_push @36
-    kvarena_push_auto_grow @37
-    kvarena_size @38
-    kvht_get_slot @39
-    kvht_insert @40
-    kvht_lookup @41
-    kvht_remove @42
-    kvht_slot_capacity @43
-    kvht_slot_count @44
+    kvarena_entry_to_entview @29
+    kvarena_entrytbl @30
+    kvarena_get @31
+    kvarena_get_entry @32
+    kvarena_grow @33
+    kvarena_is_empty @34
+    kvarena_is_full @35
+    kvarena_mark_dead @36
+    kvarena_pop @37
+    kvarena_push @38
+    kvarena_push_auto_grow @39
+    kvarena_size @40
+    kvht_get_slot @41
+    kvht_insert @42
+    kvht_lookup @43
+    kvht_remove @44
+    kvht_slot_capacity @45
+    kvht_slot_count @46
