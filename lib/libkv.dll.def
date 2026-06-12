@@ -1,0 +1,45 @@
+EXPORTS
+    Create_KVFile @1
+    Destroy_KVFile @2
+    KVFileBuilder_DataBufferBase @3
+    KVFileBuilder_DataBufferEnd @4
+    KVFileBuilder_WriteDataSection @5
+    KVFileBuilder_WriteEntryTable @6
+    KVFileBuilder_WriteFileFooter @7
+    KVFileBuilder_WriteFileHeader @8
+    KVFileReader_GetFileEntryChked @9
+    KVFileReader_MapFile @10
+    KVFileReader_UnmapFile @11
+    KVFile_CreateBuilderBuffer @12
+    KVFile_DestroyBuilderBuffer @13
+    KVFile_Fini @14
+    KVFile_Init @15
+    __IMPORT_DESCRIPTOR_zlib1 @16 DATA
+    __NULL_IMPORT_DESCRIPTOR @17 DATA
+    create_kvarena @18
+    create_kvht @19
+    destroy_kvarena @20
+    destroy_kvht @21
+    kvarena_build_memimg_buf @22
+    kvarena_capacity @23
+    kvarena_compact @24
+    kvarena_data @25
+    kvarena_data_len @26
+    kvarena_data_size @27
+    kvarena_destroy_memimg_buf @28
+    kvarena_entrytbl @29
+    kvarena_get @30
+    kvarena_grow @31
+    kvarena_is_empty @32
+    kvarena_is_full @33
+    kvarena_mark_dead @34
+    kvarena_pop @35
+    kvarena_push @36
+    kvarena_push_auto_grow @37
+    kvarena_size @38
+    kvht_get_slot @39
+    kvht_insert @40
+    kvht_lookup @41
+    kvht_remove @42
+    kvht_slot_capacity @43
+    kvht_slot_count @44
