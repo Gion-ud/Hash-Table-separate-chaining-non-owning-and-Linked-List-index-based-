@@ -1,5 +1,7 @@
 #pragma once
 
+#include "_kvapi.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include "kvht_key.h"
@@ -22,33 +24,34 @@ struct _kvht_slot {
 
 #define NULL_IDX -1
 
-extern kvht_t *create_kvht(
+LIBKV_API kvht_t *create_kvht(
     unsigned int bucket_capacity, 
     unsigned int slot_capacity
 );
-extern void destroy_kvht(kvht_t *ht_p);
+LIBKV_API void destroy_kvht(kvht_t *ht_p);
 
 typedef struct _kvht_slot_handle_t {
     int     slot_idx;
     int     bucket_idx;
 } kvht_slot_handle_t;
 
-extern int kvht_insert(
+LIBKV_API int kvht_insert(
     kvht_t             *ht_p,
     const kvht_key_t   *key_p,
     const void         *data
 );
-extern int kvht_lookup(
+LIBKV_API int kvht_lookup(
     const kvht_t           *ht_p,
     const kvht_key_t       *key_p,
     kvht_slot_handle_t     *out_slot_handle_p
 );
 
-extern int kvht_remove(
+LIBKV_API int kvht_remove(
     kvht_t             *ht_p,
     kvht_slot_handle_t *slot_handle_p
 );
-extern const kvht_slot_t *kvht_get_slot(
+
+LIBKV_API const kvht_slot_t *kvht_get_slot(
     const kvht_t               *ht_p,
     const kvht_slot_handle_t   *slot_handle_p
 );

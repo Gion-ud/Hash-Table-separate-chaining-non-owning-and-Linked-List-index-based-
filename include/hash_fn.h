@@ -4,13 +4,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
+extern uint64_t fnv_1a_hash64(const void* key, size_t len);
+extern uint32_t fnv_1a_hash32(const void* key, size_t len);
+
+#ifdef _USING_64BIT_HASH
 static const uint64_t FNV_OFFSET_BASIS_UINT64   = 0xcbf29ce484222325ULL;
 static const uint64_t FNV_PRIME_UINT64          = 0x00000100000001b3ULL;
-static const uint32_t FNV_OFFSET_BASIS_UINT32   = 0x811C9DC5u;
-static const uint32_t FNV_PRIME_UINT32          = 0x01000193u;
 
-
-static uint64_t fnv_1a_hash64(const void* key, size_t len) {
+uint64_t fnv_1a_hash64(const void* key, size_t len) {
     uint64_t h = FNV_OFFSET_BASIS_UINT64;
     size_t i = 0;
     while (i < len) {
@@ -19,8 +20,14 @@ static uint64_t fnv_1a_hash64(const void* key, size_t len) {
     }
     return h;
 }
+#endif /* _USING_64BIT_HASH */
 
-static uint32_t fnv_1a_hash32(const void* key, size_t len) {
+#ifdef _USING_32BIT_HASH
+
+static const uint32_t FNV_OFFSET_BASIS_UINT32   = 0x811C9DC5u;
+static const uint32_t FNV_PRIME_UINT32          = 0x01000193u;
+
+uint32_t fnv_1a_hash32(const void* key, size_t len) {
     uint32_t h = FNV_OFFSET_BASIS_UINT32;
     size_t i = 0;
     while (i < len) {
@@ -29,5 +36,7 @@ static uint32_t fnv_1a_hash32(const void* key, size_t len) {
     }
     return h;
 }
+#endif /* _USING_32BIT_HASH */
+
 
 #endif

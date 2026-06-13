@@ -1,14 +1,17 @@
 #pragma once
+
+#include "_kvapi.h"
+
 #include <kvfile.h>
 #include <kvarena.h>
 
-extern int kvarena_build_memimg_buf(
+LIBKV_API int kvarena_build_memimg_buf(
     KVArena        *kva_p,
     unsigned char **out_filebuf_pp,
     size_t         *out_filesize_p
 );
 
-extern void kvarena_destroy_memimg_buf(
+LIBKV_API void kvarena_destroy_memimg_buf(
     KVArena        *kva_p,
     unsigned char **filebuf_pp
 );

@@ -1,4 +1,4 @@
-#define _HASH_TABLE_INTRNL_IMPLM
+#define _KVHT_INTRNL_IMPLM
 #include <kvfile.h>
 #include <stdlib.h>
 #include <string.h>
@@ -131,7 +131,7 @@ int32_t kvarena_push(
     _dbg_print("kvarena_push@0.validation");
     if (!kva_p || !kva_p->entrytbl || !kva_p->data_buf)
         goto failed_ret;
-    if (!kvht_key_p || !kvht_key_p->key || !kvht_key_p->key_len)
+    if (!kvht_key_p || !kvht_key_p->key_buf || !kvht_key_p->key_len)
         goto failed_ret;
     if (!data || !data_len) goto failed_ret;
 
@@ -182,7 +182,7 @@ int32_t kvarena_push(
     unsigned char *_dest_key_p = kva_p->data_buf + kva_p->entrytbl[idx].key_off;
     memcpy(
         _dest_key_p,
-        kvht_key_p->key,
+        kvht_key_p->key_buf,
         kva_p->entrytbl[idx].key_len
     );
     _dest_key_p[kva_p->entrytbl[idx].key_len] = '\0'; // NUL termination

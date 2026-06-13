@@ -1,4 +1,4 @@
-/* To be done */
+#define _KVHT_INTRNL_IMPLM
 
 #include <kvfile.h>
 #include <stdlib.h>

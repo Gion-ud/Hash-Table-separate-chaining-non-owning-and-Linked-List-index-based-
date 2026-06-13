@@ -3,7 +3,8 @@
  * stable slot idx and double libked list chaining
  */
 
-#define _HASH_TABLE_INTRNL_IMPLM
+
+#define _KVHT_INTRNL_IMPLM
 #include <kvht.h>
 
 struct _kvht {
@@ -152,7 +153,7 @@ static inline int _is_slot_occupied(
         ht_p->cntl_arr[slot_idx] == SLOT_OCCUPIED
     );
 }
-#define _is_valid_hash_key(hk_p) ((hk_p) && (hk_p)->key && (hk_p)->key_len)
+#define _is_valid_hash_key(hk_p) ((hk_p) && (hk_p)->key_buf && (hk_p)->key_len)
 #define _is_empty_ht(ht_p) (!(ht_p)->slot_count)
 #define _is_not_empty_ht(ht_p) (!_is_empty_ht(ht_p))
 static inline int _is_full_ht(const kvht_t *ht_p) {
@@ -180,7 +181,7 @@ _ht_assert_slot_chain_integrity(
 }
 
 int kvht_insert(
-    kvht_t       *ht_p,
+    kvht_t             *ht_p,
     const kvht_key_t   *key_p,
     const void         *data
 ) {
@@ -210,7 +211,7 @@ int kvht_insert(
     kvht_slot_t *slot_p = ht_get_slot(ht_p, new_slot);
     
     _dbg_print("kvht_insert@4.deref_slot");
-    slot_p->key         = key_p->key;       // non owning
+    slot_p->key         = key_p->key_buf;       // non owning
     slot_p->key_len     = key_p->key_len;
     slot_p->hash        = key_p->hash;
     slot_p->data        = data;             // non owning
@@ -298,7 +299,7 @@ int kvht_lookup(
             slot_p->key_len != key_p->key_len
         )
             goto probe_next_slot;
-        if (memcmp(slot_p->key, key_p->key, key_p->key_len) == 0) {
+        if (memcmp(slot_p->key, key_p->key_buf, key_p->key_len) == 0) {
             out_slot_handle_p->bucket_idx = bucket_idx;
             out_slot_handle_p->slot_idx = slot_idx;
             _dbg_print(

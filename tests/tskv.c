@@ -85,7 +85,7 @@ int main() {
         __auto_type _evp = kvarena_entry_to_entview(kva_p, ent_p, &ev);
         assert(_evp);
         kvht_key_t key = {
-            .key        = ev.key_p,
+            .key_buf    = ev.key_p,
             .key_len    = ev.key_len,
             .hash       = ev.key_hash
         };
@@ -94,19 +94,18 @@ int main() {
 
     puts("-----------------");
     for (uint32_t i = 0u; i < entc; ++i) {
-        KVArenaEntryView ev = {0};
         printf("kv_get@line%u.loop[%u]\n", __LINE__, i);
-        int ret = kvarena_get(kva_p, i, &ev);
-        assert(ret != NULL_IDX);
+
         kvht_key_t key = {0};
         make_hash_key_from_cstr(&key, kvtbl[i].key);
         kvht_slot_handle_t h = {0};
-        ret = kvht_lookup(ht_p, &key, &h);
+
+        int ret = kvht_lookup(ht_p, &key, &h);
         assert(ret >= 0);
         __auto_type sp = kvht_get_slot(ht_p, &h);
         assert(sp);
         KVArenaEntryView *evp = (KVArenaEntryView*)sp->data;
-        printf("%s -> %.*s\n", key.key, (int)evp->val_len, (char*)evp->val_p);
+        printf("%s -> %.*s\n", key.key_buf, (int)evp->val_len, (char*)evp->val_p);
     }
     puts("-----------------");
 
@@ -134,12 +133,60 @@ int main() {
     ret = KVFileReader_MapFile(kvfp, fd);
     assert(ret >= 0);
     for (uint32_t i = 0u; i < kvfp->entrycnt; ++i) {
-        const KVFileEntry *ep = KVFileReader_GetFileEntryChked(kvfp, i);
-        assert(ep);
+        __auto_type ent_p = KVFileReader_GetFileEntryChked(kvfp, i);
+        assert(ent_p);
         KVArenaEntryView ev = {0};
-        KVFileReader_EntryViewFromFileEntry(kvfp, ep, &ev);
+        __auto_type _evp = KVFileReader_EntryViewFromFileEntry(kvfp, ent_p, &ev);
+        assert(_evp);
         printf("[%u] %s %.*s\n", i, ev.key_p, ev.val_len, (char*)ev.val_p);
     }
+
+
+
+    entc = kvfp->entrycnt;
+    ht_p = create_kvht(entc, entc);
+    assert(ht_p);
+
+    puts("-----------------");
+    for (uint32_t i = 0u; i < entc; ++i) {
+        KVArenaEntryView ev = {0};
+        printf("kv_put@line%u.loop[%u]\n", __LINE__, i);
+        __auto_type ent_p = KVFileReader_GetFileEntryChked(kvfp, i);
+        if (!ent_p) continue;
+        __auto_type _evp = KVFileReader_EntryViewFromFileEntry(kvfp, ent_p, &ev);
+        assert(_evp);
+        kvht_key_t key = {
+            .key_buf    = ev.key_p,
+            .key_len    = ev.key_len,
+            .hash       = ev.key_hash
+        };
+        printf("###key: %s\n", key.key_buf);
+        assert(key.key_buf && key.key_len);
+        kvht_insert(ht_p, &key, _evp);
+    }
+
+    puts("-----------------");
+    for (uint32_t i = 0u; i < entc; ++i) {
+        printf("kv_get@line%u.loop[%u]\n", __LINE__, i);
+
+        kvht_key_t key = {0};
+        make_hash_key_from_cstr(&key, kvtbl[i].key);
+        kvht_slot_handle_t h = {0};
+
+        ret = kvht_lookup(ht_p, &key, &h);
+        assert(ret >= 0);
+        __auto_type sp = kvht_get_slot(ht_p, &h);
+        assert(sp);
+        KVArenaEntryView *evp = (KVArenaEntryView*)sp->data;
+        printf("%s -> %.*s\n", key.key_buf, (int)evp->val_len, (char*)evp->val_p);
+    }
+    puts("-----------------");
+
+
+
+    destroy_kvht(ht_p);
+
+
     KVFileReader_UnmapFile(kvfp);
 
     close(fd);

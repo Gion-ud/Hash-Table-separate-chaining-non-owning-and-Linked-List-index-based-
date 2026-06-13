@@ -4,12 +4,14 @@
 #include <stdint.h>
 
 typedef struct _kvht_key {
-    const char     *key;        // not owned
+    const char     *key_buf;        // not owned
     unsigned int    key_len;
     uint32_t        hash;
 } kvht_key_t;
 
-#if !defined(_HASH_TABLE_INTRNL_IMPLM)
+#define _USING_32BIT_HASH
+
+#if !defined(_KVHT_INTRNL_IMPLM)
 
 #include <string.h>
 #include <hash_fn.h>
@@ -21,10 +23,10 @@ make_hash_key_from_cstr(
     const char *cstr
 ) {
     if (!in_hash_key_p || !cstr) return NULL;
-    in_hash_key_p->key = cstr;
-    in_hash_key_p->key_len = strlen(cstr);
-    in_hash_key_p->hash = hash32(in_hash_key_p->key, in_hash_key_p->key_len);
+    in_hash_key_p->key_buf  = cstr;
+    in_hash_key_p->key_len  = strlen(cstr);
+    in_hash_key_p->hash     = hash32(in_hash_key_p->key_buf, in_hash_key_p->key_len);
     return in_hash_key_p;
 }
 
-#endif /*_HASH_TABLE_INTRNL_IMPLM*/
+#endif /*_KVHT_INTRNL_IMPLM*/

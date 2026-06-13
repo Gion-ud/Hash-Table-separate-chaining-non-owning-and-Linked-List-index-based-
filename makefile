@@ -9,17 +9,19 @@ CFLAGS = \
 #	-Wno-maybe-uninitialized \
 #	-Wno-unused-function
 
+LIBKV_CFLAGS = -D_BUILD_LIBKV_SHARED -fvisibility=hidden
+
 kvht.o: src/kvht.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
+	cc -c $< -o build/$@ $(CFLAGS) $(LIBKV_CFLAGS) -Iinclude -Isrc
 
 kvarena.o: src/kvarena.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
+	cc -c $< -o build/$@ $(CFLAGS) $(LIBKV_CFLAGS) -Iinclude -Isrc
 
 kvfile.o: src/kvfile.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
+	cc -c $< -o build/$@ $(CFLAGS) $(LIBKV_CFLAGS) -Iinclude -Isrc
 
 kvimg.o: src/kvimg.c | build
-	cc -c $< -o build/$@ $(CFLAGS) -Iinclude -Isrc
+	cc -c $< -o build/$@ $(CFLAGS) $(LIBKV_CFLAGS) -Iinclude -Isrc
 
 libkv.dll: build/kvht.o build/kvarena.o build/kvfile.o build/kvimg.o | bin
 	cc -shared $^ -o bin/$@ $(CFLAGS) \

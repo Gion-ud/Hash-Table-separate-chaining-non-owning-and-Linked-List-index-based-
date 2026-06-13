@@ -1,4 +1,5 @@
-/*kvimg.c; to be finished; kvarena && kvfile */
+#define _KVHT_INTRNL_IMPLM
+
 #include <kvfile.h>
 #include <stdlib.h>
 #include "_kvarena.inl"
