@@ -1,0 +1,132 @@
+[
+ {
+  "directory": "C:\\John_Wood\\Coding_Projects\\c\\kvht",
+  "arguments": [
+   "cc",
+   "-c",
+   "src/kvht.c",
+   "-o",
+   "build/kvht.o",
+   "-O2",
+   "-Wall",
+   "-Wextra",
+   "-fno-exceptions",
+   "-fno-strict-aliasing",
+   "-D_DEBUG",
+   "-g",
+   "-D_BUILD_LIBKV_SHARED",
+   "-fvisibility=hidden",
+   "-Iinclude",
+   "-Isrc"
+  ],
+  "file": "src/kvht.c"
+ },
+ {
+  "directory": "C:\\John_Wood\\Coding_Projects\\c\\kvht",
+  "arguments": [
+   "cc",
+   "-c",
+   "src/kvarena.c",
+   "-o",
+   "build/kvarena.o",
+   "-O2",
+   "-Wall",
+   "-Wextra",
+   "-fno-exceptions",
+   "-fno-strict-aliasing",
+   "-D_DEBUG",
+   "-g",
+   "-D_BUILD_LIBKV_SHARED",
+   "-fvisibility=hidden",
+   "-Iinclude",
+   "-Isrc"
+  ],
+  "file": "src/kvarena.c"
+ },
+ {
+  "directory": "C:\\John_Wood\\Coding_Projects\\c\\kvht",
+  "arguments": [
+   "cc",
+   "-c",
+   "src/kvfile.c",
+   "-o",
+   "build/kvfile.o",
+   "-O2",
+   "-Wall",
+   "-Wextra",
+   "-fno-exceptions",
+   "-fno-strict-aliasing",
+   "-D_DEBUG",
+   "-g",
+   "-D_BUILD_LIBKV_SHARED",
+   "-fvisibility=hidden",
+   "-Iinclude",
+   "-Isrc"
+  ],
+  "file": "src/kvfile.c"
+ },
+ {
+  "directory": "C:\\John_Wood\\Coding_Projects\\c\\kvht",
+  "arguments": [
+   "cc",
+   "-c",
+   "src/kvimg.c",
+   "-o",
+   "build/kvimg.o",
+   "-O2",
+   "-Wall",
+   "-Wextra",
+   "-fno-exceptions",
+   "-fno-strict-aliasing",
+   "-D_DEBUG",
+   "-g",
+   "-D_BUILD_LIBKV_SHARED",
+   "-fvisibility=hidden",
+   "-Iinclude",
+   "-Isrc"
+  ],
+  "file": "src/kvimg.c"
+ },
+ {
+  "directory": "C:\\John_Wood\\Coding_Projects\\c\\kvht",
+  "arguments": [
+   "cc",
+   "tests/tskv.c",
+   "lib/libkv.dll.a",
+   "-o",
+   "bin/tskv",
+   "-O2",
+   "-Wall",
+   "-Wextra",
+   "-fno-exceptions",
+   "-fno-strict-aliasing",
+   "-D_DEBUG",
+   "-g",
+   "-Iinclude",
+   "-Llib"
+  ],
+  "file": "tests/tskv.c"
+ },
+ {
+  "directory": "C:\\John_Wood\\Coding_Projects\\c\\kvht",
+  "arguments": [
+   "cc",
+   "-c",
+   "src/kvtbl.c",
+   "-o",
+   "build/kvtbl.o",
+   "-O2",
+   "-Wall",
+   "-Wextra",
+   "-fno-exceptions",
+   "-fno-strict-aliasing",
+   "-D_DEBUG",
+   "-g",
+   "-D_BUILD_LIBKV_SHARED",
+   "-fvisibility=hidden",
+   "-Iinclude",
+   "-Isrc"
+  ],
+  "file": "src/kvtbl.c"
+ }
+]

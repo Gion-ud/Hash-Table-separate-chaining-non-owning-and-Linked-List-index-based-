@@ -1,0 +1,2528 @@
+<Create_KVTable@file 'src/kvtbl.c' line34> 
+<create_kvht@file 'src/kvht.c' line54> 0
+<create_kvht@file 'src/kvht.c' line59> 1
+<create_kvht@file 'src/kvht.c' line72> 2 # loop
+<create_kvht@file 'src/kvht.c' line85> 3
+<create_kvht@file 'src/kvht.c' line91> 0.ret
+
+create_kvarena@0
+create_kvarena@1.malloc.KVArena
+create_kvarena@2.alloc_res # entrytbl && data
+create_kvarena@3.memset_res
+create_kvarena@4.set_intrnl_state
+create_kvarena@0.ret
+
+<Create_KVTable@file 'src/kvtbl.c' line49> 0.ret
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a77330, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+<_KVTable_DupHashTable@file 'src/kvtbl.c' line72> 
+<create_kvht@file 'src/kvht.c' line54> 0
+<create_kvht@file 'src/kvht.c' line59> 1
+<create_kvht@file 'src/kvht.c' line72> 2 # loop
+<create_kvht@file 'src/kvht.c' line85> 3
+<create_kvht@file 'src/kvht.c' line91> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a77330, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<destroy_kvht@file 'src/kvht.c' line100> 
+<destroy_kvht@file 'src/kvht.c' line108> ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a77344, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=1; chain_head_idx=0
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a77330, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+<_KVTable_DupHashTable@file 'src/kvtbl.c' line72> 
+<create_kvht@file 'src/kvht.c' line54> 0
+<create_kvht@file 'src/kvht.c' line59> 1
+<create_kvht@file 'src/kvht.c' line72> 2 # loop
+<create_kvht@file 'src/kvht.c' line85> 3
+<create_kvht@file 'src/kvht.c' line91> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a77330, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a77344, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<destroy_kvht@file 'src/kvht.c' line100> 
+<destroy_kvht@file 'src/kvht.c' line108> ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a77358, -1, 0)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=0; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[3]:	('write', 5, 0xbe269f5c, 000001d079a7736c, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a77344, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@1a.grow
+kvarena_grow@0.validation
+kvarena_grow@1.assert_intrnl_state
+kvarena_grow@2.malloc.new_entrytbl
+kvarena_grow@2.malloc.new_cntl_arr
+kvarena_grow@3.memset
+kvarena_grow@4.memcpy
+kvarena_grow@5.free
+kvarena_grow@6.reassign
+kvarena_grow@0.ret
+
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+<_KVTable_DupHashTable@file 'src/kvtbl.c' line72> 
+<create_kvht@file 'src/kvht.c' line54> 0
+<create_kvht@file 'src/kvht.c' line59> 1
+<create_kvht@file 'src/kvht.c' line72> 2 # loop
+<create_kvht@file 'src/kvht.c' line85> 3
+<create_kvht@file 'src/kvht.c' line91> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a787d0, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a787e4, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a787f8, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[3]:	('write', 5, 0xbe269f5c, 000001d079a7880c, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<destroy_kvht@file 'src/kvht.c' line100> 
+<destroy_kvht@file 'src/kvht.c' line108> ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[4]:	('lseek', 5, 0x069fa287, 000001d079a78820, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=6; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[5]:	('mmap', 4, 0x2e4732ae, 000001d079a78834, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a787e4, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[6]:	('munmap', 6, 0x1128760b, 000001d079a78848, -1, 1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=6
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('munmap', 6, 0x1128760b, 000001d079a78848, -1, 1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a787e4, 6, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a7885c, -1, 6)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=6; chain_head_idx=5
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[5]:	('mmap', 4, 0x2e4732ae, 000001d079a78834, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@1a.grow
+kvarena_grow@0.validation
+kvarena_grow@1.assert_intrnl_state
+kvarena_grow@2.malloc.new_entrytbl
+kvarena_grow@2.malloc.new_cntl_arr
+kvarena_grow@3.memset
+kvarena_grow@4.memcpy
+kvarena_grow@5.free
+kvarena_grow@6.reassign
+kvarena_grow@0.ret
+
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+<_KVTable_DupHashTable@file 'src/kvtbl.c' line72> 
+<create_kvht@file 'src/kvht.c' line54> 0
+<create_kvht@file 'src/kvht.c' line59> 1
+<create_kvht@file 'src/kvht.c' line72> 2 # loop
+<create_kvht@file 'src/kvht.c' line85> 3
+<create_kvht@file 'src/kvht.c' line91> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a78a10, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a78a24, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a78a38, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[3]:	('write', 5, 0xbe269f5c, 000001d079a78a4c, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[4]:	('lseek', 5, 0x069fa287, 000001d079a78a60, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[5]:	('mmap', 4, 0x2e4732ae, 000001d079a78a74, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[6]:	('munmap', 6, 0x1128760b, 000001d079a78a88, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, -1, 1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<destroy_kvht@file 'src/kvht.c' line100> 
+<destroy_kvht@file 'src/kvht.c' line108> ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[8]:	('fsync', 5, 0x0e697db6, 000001d079a78ab0, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=7
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, -1, 1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a78a24, 7, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, -1, 7)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=8; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[10]:	('std::vector<int>::push_back', 27, 0xab5c55a8, 000001d079a78ad8, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=13; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[11]:	('malloc', 6, 0x558c274d, 000001d079a78aec, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=9
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, -1, 7)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, 9, 1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a78a24, 7, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=2
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a78a38, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[13]:	('realloc', 7, 0xbf26b345, 000001d079a78b14, -1, 2)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_Insert@file 'src/kvtbl.c' line106> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=6
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('munmap', 6, 0x1128760b, 000001d079a78a88, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+kvarena_push_auto_grow@0.validation
+kvarena_push_auto_grow@0.ret.kvarena_push
+
+kvarena_push@0.validation
+kvarena_push@1.check_if_full
+kvarena_push@2.assert_intrnl_state
+kvarena_push@3
+kvarena_push@4.check_if_realloc_databuf_required
+kvarena_push@5.fill_entry_fields
+kvarena_push@6.copy_key
+kvarena_push@7.copy_data
+kvarena_push@0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[14]:	('free', 4, 0x99b3eedb, 000001d079a78b28, -1, 6)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=9; chain_head_idx=0
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a78a10, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (9, 0)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, 12, 7)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, 9, 1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a78a24, 7, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 1)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=13
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[13]:	('realloc', 7, 0xbf26b345, 000001d079a78b14, -1, 2)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a78a38, 13, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (5, 2)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=12; chain_head_idx=3
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[3]:	('write', 5, 0xbe269f5c, 000001d079a78a4c, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (12, 3)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=7; chain_head_idx=4
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[4]:	('lseek', 5, 0x069fa287, 000001d079a78a60, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (7, 4)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=14; chain_head_idx=5
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[5]:	('mmap', 4, 0x2e4732ae, 000001d079a78a74, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (14, 5)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=14
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[14]:	('free', 4, 0x99b3eedb, 000001d079a78b28, -1, 6)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('munmap', 6, 0x1128760b, 000001d079a78a88, 14, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (11, 6)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, 12, 7)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, 9, 1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 7)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=6; chain_head_idx=8
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[8]:	('fsync', 5, 0x0e697db6, 000001d079a78ab0, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (6, 8)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, 12, 7)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 9)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=8; chain_head_idx=10
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[10]:	('std::vector<int>::push_back', 27, 0xab5c55a8, 000001d079a78ad8, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (8, 10)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=13; chain_head_idx=11
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[11]:	('malloc', 6, 0x558c274d, 000001d079a78aec, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (13, 11)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 12)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=13
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[13]:	('realloc', 7, 0xbf26b345, 000001d079a78b14, -1, 2)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (5, 13)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=14
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[14]:	('free', 4, 0x99b3eedb, 000001d079a78b28, -1, 6)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (11, 14)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, 12, 7)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, 9, 1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('close', 5, 0x27cb3b23, 000001d079a78a24, 7, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 1)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=12; chain_head_idx=3
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[3]:	('write', 5, 0xbe269f5c, 000001d079a78a4c, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (12, 3)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line338> slot is chain head #5.b
+(bucket_idx,chain_head,slot_idx)=(12,3,3)
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=14; chain_head_idx=5
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[5]:	('mmap', 4, 0x2e4732ae, 000001d079a78a74, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (14, 5)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line338> slot is chain head #5.b
+(bucket_idx,chain_head,slot_idx)=(14,5,5)
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, 12, 7)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('ftruncate', 9, 0x77fe0833, 000001d079a78a9c, 9, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 7)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, 9)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[9]:	('msync', 5, 0x6d617253, 000001d079a78ac4, 12, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 9)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=13; chain_head_idx=11
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[11]:	('malloc', 6, 0x558c274d, 000001d079a78aec, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (13, 11)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line338> slot is chain head #5.b
+(bucket_idx,chain_head,slot_idx)=(13,11,11)
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_Remove@file 'src/kvtbl.c' line194> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=13
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[13]:	('realloc', 7, 0xbf26b345, 000001d079a78b14, -1, 2)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (5, 13)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_mark_dead@0.validation
+kvarena_mark_dead@2.assert_intrnl_state
+kvarena_mark_dead@3.mark_dead
+kvarena_mark_dead@0.ret
+
+<kvht_remove@file 'src/kvht.c' line312> validate ht storage #0
+<kvht_remove@file 'src/kvht.c' line314> check ht not empty
+<kvht_remove@file 'src/kvht.c' line316> validate ht slot handle
+<kvht_remove@file 'src/kvht.c' line318> check if slot occupied
+<kvht_remove@file 'src/kvht.c' line320> assert ht intrnl state #1
+<kvht_remove@file 'src/kvht.c' line323> get slot self, prev, next #2
+<kvht_remove@file 'src/kvht.c' line328> assert slot chain integrity #3
+<kvht_remove@file 'src/kvht.c' line331> get bucket ptr
+<kvht_remove@file 'src/kvht.c' line334> unlink slot #5
+<kvht_remove@file 'src/kvht.c' line338> slot is chain head #5.b
+(bucket_idx,chain_head,slot_idx)=(5,13,13)
+<kvht_remove@file 'src/kvht.c' line351> free slot #6
+<kvht_remove@file 'src/kvht.c' line356> reset handle && dec slot_count #7
+<kvht_remove@file 'src/kvht.c' line361> assert ht slot chain integrity #8
+<kvht_remove@file 'src/kvht.c' line364> 0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=9; chain_head_idx=0
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a78a10, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (9, 0)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=2
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a78a38, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (5, 2)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=12; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=7; chain_head_idx=4
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[4]:	('lseek', 5, 0x069fa287, 000001d079a78a60, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (7, 4)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=14; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=14
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[14]:	('free', 4, 0x99b3eedb, 000001d079a78b28, -1, 6)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('munmap', 6, 0x1128760b, 000001d079a78a88, 14, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (11, 6)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=6; chain_head_idx=8
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[8]:	('fsync', 5, 0x0e697db6, 000001d079a78ab0, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (6, 8)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=8; chain_head_idx=10
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[10]:	('std::vector<int>::push_back', 27, 0xab5c55a8, 000001d079a78ad8, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (8, 10)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=13; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=12
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[12]:	('calloc', 6, 0x73e20203, 000001d079a78b00, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 12)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=2
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[2]:	('read', 4, 0xcedfa3c5, 000001d079a78a38, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=14
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[14]:	('free', 4, 0x99b3eedb, 000001d079a78b28, -1, 6)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (11, 14)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_Compact@file 'src/kvtbl.c' line152> 
+kvarena_compact@0.validation
+kvarena_compact@1.assert_intrnl_state
+kvarena_compact@2.create_kvarena
+create_kvarena@0
+create_kvarena@1.malloc.KVArena
+create_kvarena@2.alloc_res # entrytbl && data
+create_kvarena@3.memset_res
+create_kvarena@4.set_intrnl_state
+create_kvarena@0.ret
+
+kvarena_compact@3.loop
+kvarena_compact@4.destroy_kvarena
+destroy_kvarena@0
+destroy_kvarena@1
+destroy_kvarena@2
+destroy_kvarena@0.ret
+
+kvarena_compact@0.ret
+
+<destroy_kvht@file 'src/kvht.c' line100> 
+<destroy_kvht@file 'src/kvht.c' line108> ret
+
+<create_kvht@file 'src/kvht.c' line54> 0
+<create_kvht@file 'src/kvht.c' line59> 1
+<create_kvht@file 'src/kvht.c' line72> 2 # loop
+<create_kvht@file 'src/kvht.c' line85> 3
+<create_kvht@file 'src/kvht.c' line91> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a788a0, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[1]:	('read', 4, 0xcedfa3c5, 000001d079a788b4, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[2]:	('lseek', 5, 0x069fa287, 000001d079a788c8, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[3]:	('munmap', 6, 0x1128760b, 000001d079a788dc, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[4]:	('fsync', 5, 0x0e697db6, 000001d079a788f0, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[5]:	('std::vector<int>::push_back', 27, 0xab5c55a8, 000001d079a78904, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[6]:	('calloc', 6, 0x73e20203, 000001d079a78918, -1, -1)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+kvarena_get_entry@0.validation
+kvarena_get_entry@0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<kvht_insert@file 'src/kvht.c' line205> check ht valid storage #0
+<kvht_insert@file 'src/kvht.c' line207> check ht not full
+<kvht_insert@file 'src/kvht.c' line209> validate hash key
+<kvht_insert@file 'src/kvht.c' line211> assert ht intrnl state #1
+<kvht_insert@file 'src/kvht.c' line214> #2
+<kvht_insert@file 'src/kvht.c' line219> free list alloc slot#3
+<kvht_insert@file 'src/kvht.c' line224> deref slot #4
+<kvht_insert@file 'src/kvht.c' line227> fill slot #5
+slot[7]:	('free', 4, 0x99b3eedb, 000001d079a7892c, -1, 3)
+<kvht_insert@file 'src/kvht.c' line237> chain push front #6
+<kvht_insert@file 'src/kvht.c' line242> ht assert chain integrity #7
+<kvht_insert@file 'src/kvht.c' line245> inc slot count #8
+<kvht_insert@file 'src/kvht.c' line248> 0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=9; chain_head_idx=0
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[0]:	('open', 4, 0xd35ec4c9, 000001d079a788a0, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (9, 0)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=6
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('calloc', 6, 0x73e20203, 000001d079a78918, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('read', 4, 0xcedfa3c5, 000001d079a788b4, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (5, 1)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=12; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=7; chain_head_idx=2
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[2]:	('lseek', 5, 0x069fa287, 000001d079a788c8, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (7, 2)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=14; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=7
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('free', 4, 0x99b3eedb, 000001d079a7892c, -1, 3)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[3]:	('munmap', 6, 0x1128760b, 000001d079a788dc, 7, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (11, 3)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=6
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('calloc', 6, 0x73e20203, 000001d079a78918, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=6; chain_head_idx=4
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[4]:	('fsync', 5, 0x0e697db6, 000001d079a788f0, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (6, 4)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=6
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('calloc', 6, 0x73e20203, 000001d079a78918, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=8; chain_head_idx=5
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[5]:	('std::vector<int>::push_back', 27, 0xab5c55a8, 000001d079a78904, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (8, 5)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=13; chain_head_idx=-1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=3; chain_head_idx=6
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[6]:	('calloc', 6, 0x73e20203, 000001d079a78918, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (3, 6)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=5; chain_head_idx=1
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[1]:	('read', 4, 0xcedfa3c5, 000001d079a788b4, -1, -1)
+<kvht_lookup@file 'src/kvht.c' line298> probe_loop.next
+<kvht_lookup@file 'src/kvht.c' line304> -1.ret
+
+<KVTable_GetEntry@file 'src/kvtbl.c' line225> 
+<kvht_lookup@file 'src/kvht.c' line260> validate ht storage #0
+<kvht_lookup@file 'src/kvht.c' line262> check ht not empty
+<kvht_lookup@file 'src/kvht.c' line264> validate hash key
+<kvht_lookup@file 'src/kvht.c' line266> check if slot handle null
+<kvht_lookup@file 'src/kvht.c' line268> assert intrnl state #1
+bucket_idx=11; chain_head_idx=7
+<kvht_lookup@file 'src/kvht.c' line278> probe_loop.begin #2
+<kvht_lookup@file 'src/kvht.c' line281> probe_loop.it
+slot[7]:	('free', 4, 0x99b3eedb, 000001d079a7892c, -1, 3)
+<kvht_lookup@file 'src/kvht.c' line293> slot found #ret
+
+(bucket, slot) = (11, 7)
+
+<kvht_get_slot@file 'src/kvht.c' line375> validate ht storage #0
+<kvht_get_slot@file 'src/kvht.c' line377> check ht not empty
+<kvht_get_slot@file 'src/kvht.c' line379> validate slot handle
+<kvht_get_slot@file 'src/kvht.c' line381> check slot occupied
+<kvht_get_slot@file 'src/kvht.c' line383> assert ht intrnl state
+<kvht_get_slot@file 'src/kvht.c' line385> assert chain integrity #2
+<kvht_get_slot@file 'src/kvht.c' line388> 0.ret
+
+kvarena_entry_to_entview@0.validation
+kvarena_entry_to_entview@0.ret
+
+<Destroy_KVTable@file 'src/kvtbl.c' line61> 

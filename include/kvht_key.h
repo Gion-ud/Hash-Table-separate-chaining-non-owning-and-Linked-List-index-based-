@@ -28,5 +28,6 @@ make_hash_key_from_cstr(
     in_hash_key_p->hash     = hash32(in_hash_key_p->key_buf, in_hash_key_p->key_len);
     return in_hash_key_p;
 }
-
+#else
+#define _is_valid_kvht_key(hk_p) ((hk_p) && (hk_p)->key_buf && (hk_p)->key_len)
 #endif /*_KVHT_INTRNL_IMPLM*/

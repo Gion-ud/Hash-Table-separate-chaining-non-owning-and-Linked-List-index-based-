@@ -1,3 +1,7 @@
 {
-    "C_Cpp.default.compilerPath": "C:/John_Wood/DevTools/w64devkit/bin/cc.exe"
+    "clangd.arguments": [
+        "--query-driver=C:/John_Wood/DevTools/w64devkit/bin/*"
+    ],
+    "clangd.onConfigChanged": "restart",
+    "editor.inlayHints.enabled": "off"
 }

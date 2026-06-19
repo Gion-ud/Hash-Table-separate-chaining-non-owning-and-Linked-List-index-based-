@@ -3,8 +3,7 @@
  * stable slot idx and double libked list chaining
  */
 
-
-#define _KVHT_INTRNL_IMPLM
+#include "_libkv_intrnl.h"
 #include <kvht.h>
 
 struct _kvht {
@@ -26,6 +25,23 @@ struct _kvht {
 #include <assert.h>
 #include "dbg_print.h"
 
+
+static inline void
+_kvht_dbg_print_slot(int slot_idx, kvht_slot_t *slot_p) {
+    _dbg_print(
+        "slot[%d]:\t('%.*s', %u, 0x%.8x, %p, %d, %d)",
+        slot_idx,
+        slot_p->key_len, slot_p->key,
+        slot_p->key_len,
+        slot_p->hash,
+        slot_p->data,
+        slot_p->prev_idx,
+        slot_p->next_idx
+    );
+    (void)slot_idx;
+    (void)slot_p;
+}
+
 kvht_t *
 create_kvht(
     unsigned int bucket_count, 
@@ -35,30 +51,25 @@ create_kvht(
     if (slot_capacity < HT_MIN_NSLOT) slot_capacity = HT_MIN_NSLOT;
 
     kvht_t *ht_p = (kvht_t*)malloc(sizeof(kvht_t));
-    _dbg_print("create_kvht@0");
+    _dbg_log_msg("0");
     assert(ht_p);
     if (!ht_p) goto failed;
-
     memset(ht_p, 0, sizeof(*ht_p)); /* Very important: zero init */
 
+    _dbg_log_msg("1");
     ht_p->slot_arr          = (kvht_slot_t*)malloc(slot_capacity * sizeof(*ht_p->slot_arr));
-    _dbg_print("create_kvht@1.0");
-    assert(ht_p->slot_arr);
     ht_p->slot_free_list    = (int*)malloc(slot_capacity * sizeof(*ht_p->slot_free_list));
-    _dbg_print("create_kvht@1.1");
-    assert(ht_p->slot_free_list);
     ht_p->cntl_arr          = (unsigned char*)malloc(slot_capacity * sizeof(*ht_p->cntl_arr));
-    _dbg_print("create_kvht@1.2");
-    assert(ht_p->cntl_arr);
     ht_p->bucket_arr        = (int*)malloc(bucket_count * sizeof(*ht_p->bucket_arr));
-    _dbg_print("create_kvht@1.3");
+    assert(ht_p->slot_arr);
+    assert(ht_p->slot_free_list);
+    assert(ht_p->cntl_arr);
     assert(ht_p->bucket_arr);
     if (!ht_p->slot_arr || !ht_p->bucket_arr || !ht_p->slot_free_list || !ht_p->cntl_arr)
         goto failed;
-
     memset(ht_p->bucket_arr, 0xFF, sizeof(*ht_p->bucket_arr) * bucket_count);  // 0xFFFFFFFF == (int32_t)-1
 
-    _dbg_print("create_kvht@2");
+    _dbg_log_msg("2 # loop");
     for (unsigned int i = 0u; i < slot_capacity; ++i) {
         ht_p->slot_arr[i].key       = NULL;
         ht_p->slot_arr[i].key_len   = 0;
@@ -71,36 +82,30 @@ create_kvht(
     }
     ht_p->slot_free_list[slot_capacity - 1] = NULL_IDX;
 
-    _dbg_print("create_kvht@3");
+    _dbg_log_msg("3");
     ht_p->free_head_idx     = 0;
     ht_p->slot_count        = 0;
     ht_p->slot_capacity     = slot_capacity;
     ht_p->bucket_count      = bucket_count;
 
-    _dbg_print("create_kvht@0.ret\n");
+    _dbg_log_msg("0.ret\n");
     return ht_p;
 failed:
-    _dbg_print("create_kvht@-1");
     destroy_kvht(ht_p); /* NULL ptr safe */
-    _dbg_print("create_kvht@-1.ret\n");
+    _dbg_log_msg("-1.ret\n");
     return NULL;
 }
 
 void destroy_kvht(kvht_t *ht_p) {
-    _dbg_print("destroy_kvht@0");
+    _dbg_log_msg("");
     if (!ht_p) goto scope_end;
-    _dbg_print("destroy_kvht@1");
     if (ht_p->slot_arr) free(ht_p->slot_arr);
-    _dbg_print("destroy_kvht@2");
     if (ht_p->cntl_arr) free(ht_p->cntl_arr);
-    _dbg_print("destroy_kvht@3");
     if (ht_p->slot_free_list) free(ht_p->slot_free_list);
-    _dbg_print("destroy_kvht@4");
     if (ht_p->bucket_arr) free(ht_p->bucket_arr);
-    _dbg_print("destroy_kvht@5");
     free(ht_p);
 scope_end:
-    _dbg_print("destroy_kvht@ret\n");
+    _dbg_log_msg("ret\n");
     return;
 }
 
@@ -153,7 +158,7 @@ static inline int _is_slot_occupied(
         ht_p->cntl_arr[slot_idx] == SLOT_OCCUPIED
     );
 }
-#define _is_valid_hash_key(hk_p) ((hk_p) && (hk_p)->key_buf && (hk_p)->key_len)
+
 #define _is_empty_ht(ht_p) (!(ht_p)->slot_count)
 #define _is_not_empty_ht(ht_p) (!_is_empty_ht(ht_p))
 static inline int _is_full_ht(const kvht_t *ht_p) {
@@ -163,10 +168,10 @@ static inline int _is_full_ht(const kvht_t *ht_p) {
 
 static inline void
 _ht_assert_slot_chain_integrity(
-    const kvht_t *ht_p,
-    int                 slot_idx,
-    int                 prev_idx,
-    int                 next_idx
+    const kvht_t   *ht_p,
+    int             slot_idx,
+    int             prev_idx,
+    int             next_idx
 ) {
     assert(
         (prev_idx != NULL_IDX) ?
@@ -180,95 +185,87 @@ _ht_assert_slot_chain_integrity(
     );
 }
 
+static inline void
+_ht_assert_chain_validity_at(
+    const kvht_t   *ht_p,
+    int             slot_idx
+) {
+    if (slot_idx == NULL_IDX) return;
+    int prev_idx = ht_prev_slot(ht_p, slot_idx);
+    int next_idx = ht_next_slot(ht_p, slot_idx);
+    _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
+}
+
+
 int kvht_insert(
     kvht_t             *ht_p,
     const kvht_key_t   *key_p,
     const void         *data
 ) {
-    _dbg_print("kvht_insert@0._is_valid_storage_ht");
+    _dbg_log_msg("check ht valid storage #0");
     if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_insert@0.not._is_full_ht");
+    _dbg_log_msg("check ht not full");
     if (_is_full_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_insert@0._is_valid_hash_key");
-    if (!_is_valid_hash_key(key_p)) goto failed_ret;
-
-    _dbg_print("kvht_insert@1._ht_assert_intrnl_state");
+    _dbg_log_msg("validate hash key");
+    if (!_is_valid_kvht_key(key_p)) goto failed_ret;
+    _dbg_log_msg("assert ht intrnl state #1");
     _ht_assert_intrnl_state(ht_p);
 
-    _dbg_print("kvht_insert@2.0 # head_idx");
-    int *head_idx_p = &ht_p->bucket_arr[key_p->hash % ht_p->bucket_count];
-    _dbg_print("kvht_insert@2.1 # head_prev_idx");
-    int *head_prev_idx_p = &ht_prev_slot(ht_p, *head_idx_p);
+    _dbg_log_msg("#2");
+    int bucket_idx          = key_p->hash % ht_p->bucket_count;
+    int *head_idx_p         = &ht_p->bucket_arr[bucket_idx];
+    int *head_prev_idx_p    = &ht_prev_slot(ht_p, *head_idx_p);
 
-    _dbg_print("kvht_insert@3.alloc_slot");
-    int new_slot = ht_p->free_head_idx;
-    ht_p->free_head_idx = ht_p->slot_free_list[new_slot];
-    ht_p->cntl_arr[new_slot] = SLOT_OCCUPIED;
+    _dbg_log_msg("free list alloc slot#3");
+    int new_slot                = ht_p->free_head_idx;
+    ht_p->free_head_idx         = ht_p->slot_free_list[new_slot];
+    ht_p->cntl_arr[new_slot]    = SLOT_OCCUPIED;
 
-    _dbg_print("kvht_insert@4.ht_get_slot");
+    _dbg_log_msg("deref slot #4");
     kvht_slot_t *slot_p = ht_get_slot(ht_p, new_slot);
     
-    _dbg_print("kvht_insert@4.deref_slot");
-    slot_p->key         = key_p->key_buf;       // non owning
+    _dbg_log_msg("fill slot #5");
+    slot_p->key         = key_p->key_buf;   // non owning
     slot_p->key_len     = key_p->key_len;
     slot_p->hash        = key_p->hash;
     slot_p->data        = data;             // non owning
     slot_p->prev_idx    = NULL_IDX;
     slot_p->next_idx    = *head_idx_p;
 
-    _dbg_print(
-        "kvht_insert@4 # slot%d:\t('%.*s', %u, 0x%.8x, %p, %d, %d)",
-        new_slot,
-        slot_p->key_len, slot_p->key,
-        slot_p->key_len,
-        slot_p->hash,
-        slot_p->data,
-        slot_p->prev_idx,
-        slot_p->next_idx
-    );
+    _kvht_dbg_print_slot(new_slot, slot_p);
 
-    _dbg_print("kvht_insert@5.chain_push_front");
+    _dbg_log_msg("chain push front #6");
     if (*head_idx_p != NULL_IDX)
         *head_prev_idx_p = new_slot;
     *head_idx_p = new_slot;
 
-    _dbg_print("kvht_insert@6.inc_slot_count");
+    _dbg_log_msg("ht assert chain integrity #7");
+    _ht_assert_chain_validity_at(ht_p, *head_idx_p);
+
+    _dbg_log_msg("inc slot count #8");
     ++ht_p->slot_count;
 
-    if (*head_idx_p != NULL_IDX) {
-        _dbg_print("kvht_insert@7._ht_assert_slot_chain_integrity");
-        int slot_idx = *head_idx_p;
-        int prev_idx = ht_prev_slot(ht_p, slot_idx);
-        int next_idx = ht_next_slot(ht_p, slot_idx);
-        _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
-    }
-
-    _dbg_print("kvht_insert@0.ret\n");
+    _dbg_log_msg("0.ret\n");
     return new_slot;
 failed_ret:
+    _dbg_log_msg("-1.ret\n");
     return NULL_IDX;
 }
 
 int kvht_lookup(
-    const kvht_t *ht_p,
+    const kvht_t       *ht_p,
     const kvht_key_t   *key_p,
     kvht_slot_handle_t *out_slot_handle_p
 ) {
-    _dbg_print("kvht_lookup@0._is_valid_storage_ht");
+    _dbg_log_msg("validate ht storage #0");
     if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_lookup@0.not._is_empty_ht");
+    _dbg_log_msg("check ht not empty");
     if (_is_empty_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_lookup@0._is_valid_hash_key");
-    if (!_is_valid_hash_key(key_p)) goto failed_ret;
-
-    _dbg_print("kvht_lookup@0._is_valid_out_slot_handle_p");
+    _dbg_log_msg("validate hash key");
+    if (!_is_valid_kvht_key(key_p)) goto failed_ret;
+    _dbg_log_msg("check if slot handle null");
     if (!out_slot_handle_p) goto failed_ret;
-
-    _dbg_print("kvht_lookup@1._ht_assert_intrnl_state");
+    _dbg_log_msg("assert intrnl state #1");
     _ht_assert_intrnl_state(ht_p);
 
     out_slot_handle_p->bucket_idx = NULL_IDX;
@@ -276,23 +273,14 @@ int kvht_lookup(
 
     int bucket_idx = key_p->hash % ht_p->bucket_count;
     int slot_idx = ht_p->bucket_arr[bucket_idx];
-    _dbg_print("kvht_lookup@2 # bucket_idx=%d; chain_head_idx=%d", bucket_idx, slot_idx);
+    _dbg_print("bucket_idx=%d; chain_head_idx=%d", bucket_idx, slot_idx);
 
-    _dbg_print("kvht_lookup@3.probe_loop.begin");
+    _dbg_log_msg("probe_loop.begin #2");
     unsigned int probc = 0;
     while (probc < ht_p->slot_capacity && slot_idx != NULL_IDX) {
+        _dbg_log_msg("probe_loop.it");
         kvht_slot_t *slot_p = ht_get_slot(ht_p, slot_idx);
-        _dbg_print(
-            "kvht_lookup@3.probe_loop.slot%d: "
-            "('%.*s', %u, 0x%.8x, %p, %d, %d)",
-            slot_idx,
-            slot_p->key_len, slot_p->key,
-            slot_p->key_len,
-            slot_p->hash,
-            slot_p->data,
-            slot_p->prev_idx,
-            slot_p->next_idx
-        );
+        _kvht_dbg_print_slot(slot_idx, slot_p);
         if (
             ht_p->cntl_arr[slot_idx] != SLOT_OCCUPIED ||
             slot_p->hash != key_p->hash ||
@@ -302,21 +290,18 @@ int kvht_lookup(
         if (memcmp(slot_p->key, key_p->key_buf, key_p->key_len) == 0) {
             out_slot_handle_p->bucket_idx = bucket_idx;
             out_slot_handle_p->slot_idx = slot_idx;
-            _dbg_print(
-                "kvht_lookup@3.probe_loop.ret_success "
-                "# (bucket, slot) = (%d, %d)\n",
-                bucket_idx, slot_idx
-            );
+            _dbg_log_msg("slot found #ret\n");
+            _dbg_print("(bucket, slot) = (%d, %d)\n", bucket_idx, slot_idx);
             return slot_idx;
         }
     probe_next_slot:
-        _dbg_print("kvht_lookup@3.probe_loop.probe_next_slot");
+        _dbg_log_msg("probe_loop.next");
         slot_idx = ht_next_slot(ht_p, slot_idx);
         ++probc;
     }
 
 failed_ret:
-    _dbg_print("kvht_lookup@-1.ret # failed\n");
+    _dbg_log_msg("-1.ret\n");
     return NULL_IDX;
 }
 
@@ -324,40 +309,35 @@ int kvht_remove(
     kvht_t       *ht_p,
     kvht_slot_handle_t *slot_handle_p
 ) {
-    _dbg_print("kvht_remove@0._is_valid_storage_ht");
+    _dbg_log_msg("validate ht storage #0");
     if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_remove@0.not._is_empty_ht");
+    _dbg_log_msg("check ht not empty");
     if (_is_empty_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_remove@0._is_valid_ht_slot_handle");
+    _dbg_log_msg("validate ht slot handle");
     if (!_is_valid_ht_slot_handle(ht_p, slot_handle_p)) goto failed_ret;
-
-    _dbg_print("kvht_remove@0._is_slot_occupied");
+    _dbg_log_msg("check if slot occupied");
     if (!_is_slot_occupied(ht_p, slot_handle_p->slot_idx)) goto failed_ret;
-
-    _dbg_print("kvht_remove@1._ht_assert_intrnl_state");
+    _dbg_log_msg("assert ht intrnl state #1");
     _ht_assert_intrnl_state(ht_p);
 
-    _dbg_print("kvht_remove@2.get_slot # slot, prev, next");
+    _dbg_log_msg("get slot self, prev, next #2");
     int *slot_idx_p = &slot_handle_p->slot_idx;
     int *prev_idx_p = &ht_prev_slot(ht_p, *slot_idx_p);
     int *next_idx_p = &ht_next_slot(ht_p, *slot_idx_p);
 
-    _dbg_print("kvht_remove@2._ht_assert_slot_chain_integrity");
+    _dbg_log_msg("assert slot chain integrity #3");
     _ht_assert_slot_chain_integrity(ht_p, *slot_idx_p, *prev_idx_p, *next_idx_p);
 
-    _dbg_print("kvht_remove@3 # get bucket ptr");
+    _dbg_log_msg("get bucket ptr");
     int *bucket_p = &ht_p->bucket_arr[slot_handle_p->bucket_idx];
-
     /* unlink */
-    _dbg_print("kvht_remove@4 # unlink");
+    _dbg_log_msg("unlink slot #5");
     if (*prev_idx_p != NULL_IDX)
         ht_next_slot(ht_p, *prev_idx_p) = *next_idx_p;
     else {
-        _dbg_print("kvht_remove@4.b # slot is chain head");
+        _dbg_log_msg("slot is chain head #5.b");
         _dbg_print(
-            "bucket_idx, chain_head, slot_idx: %d,%d,%d",
+            "(bucket_idx,chain_head,slot_idx)=(%d,%d,%d)",
             slot_handle_p->bucket_idx,
             ht_p->bucket_arr[slot_handle_p->bucket_idx],
             slot_handle_p->slot_idx
@@ -368,59 +348,47 @@ int kvht_remove(
     if (*next_idx_p != NULL_IDX)
         ht_prev_slot(ht_p, *next_idx_p) = *prev_idx_p;
 
-    _dbg_print("kvht_remove@5 # free slot");
-    ht_p->slot_free_list[slot_handle_p->slot_idx] = ht_p->free_head_idx;
-    ht_p->free_head_idx = slot_handle_p->slot_idx;
-    ht_p->cntl_arr[ht_p->free_head_idx] = SLOT_EMPTY;
+    _dbg_log_msg("free slot #6");
+    ht_p->slot_free_list[slot_handle_p->slot_idx]   = ht_p->free_head_idx;
+    ht_p->free_head_idx                             = slot_handle_p->slot_idx;
+    ht_p->cntl_arr[ht_p->free_head_idx]             = SLOT_EMPTY;
 
-    _dbg_print("kvht_remove@6 # destroy handle && --ht_p->slot_count");
+    _dbg_log_msg("reset handle && dec slot_count #7");
     slot_handle_p->bucket_idx = NULL_IDX;
     slot_handle_p->slot_idx = NULL_IDX;
     --ht_p->slot_count;
 
-    if (*bucket_p != NULL_IDX) {
-        _dbg_print("kvht_remove@7._ht_assert_slot_chain_integrity");
-        int slot_idx = *bucket_p;
-        int prev_idx = ht_prev_slot(ht_p, slot_idx);
-        int next_idx = ht_next_slot(ht_p, slot_idx);
-        _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
-    }
+    _dbg_log_msg("assert ht slot chain integrity #8");
+    _ht_assert_chain_validity_at(ht_p, *bucket_p);
 
-    _dbg_print("kvht_remove@0.ret_success\n");
+    _dbg_log_msg("0.ret\n");
     return 0;
 failed_ret:
+    _dbg_log_msg("-1.ret\n");
     return -1;
 }
 
 const kvht_slot_t *kvht_get_slot(
-    const kvht_t         *ht_p,
+    const kvht_t               *ht_p,
     const kvht_slot_handle_t   *slot_handle_p
 ) {
-    _dbg_print("kvht_get_slot@0._is_valid_storage_ht");
+    _dbg_log_msg("validate ht storage #0");
     if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_get_slot@0.not._is_empty_ht");
+    _dbg_log_msg("check ht not empty");
     if (_is_empty_ht(ht_p)) goto failed_ret;
-
-    _dbg_print("kvht_get_slot@0._is_valid_ht_slot_handle");
+    _dbg_log_msg("validate slot handle");
     if (!_is_valid_ht_slot_handle(ht_p, slot_handle_p)) goto failed_ret;
-
-    _dbg_print("kvht_get_slot@0._is_slot_occupied");
+    _dbg_log_msg("check slot occupied");
     if (!_is_slot_occupied(ht_p, slot_handle_p->slot_idx)) goto failed_ret;
-
-    _dbg_print("kvht_get_slot@1._ht_assert_intrnl_state");
+    _dbg_log_msg("assert ht intrnl state");
     _ht_assert_intrnl_state(ht_p);
+    _dbg_log_msg("assert chain integrity #2");
+    _ht_assert_chain_validity_at(ht_p, slot_handle_p->slot_idx);
 
-    _dbg_print("kvht_get_slot@2._ht_assert_slot_chain_integrity");
-    int slot_idx = slot_handle_p->slot_idx;
-    int prev_idx = ht_prev_slot(ht_p, slot_idx);
-    int next_idx = ht_next_slot(ht_p, slot_idx);
-    _ht_assert_slot_chain_integrity(ht_p, slot_idx, prev_idx, next_idx);
-
-    _dbg_print("kvht_get_slot@0.ret # ht_get_slot\n");
+    _dbg_log_msg("0.ret\n");
     return ht_get_slot(ht_p, slot_handle_p->slot_idx);
 failed_ret:
-    _dbg_print("kvht_get_slot@-1.ret\n");
+    _dbg_log_msg("-1.ret\n");
     return NULL;
 }
 

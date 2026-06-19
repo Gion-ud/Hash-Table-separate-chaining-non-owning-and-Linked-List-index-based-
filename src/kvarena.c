@@ -1,4 +1,5 @@
-#define _KVHT_INTRNL_IMPLM
+#include "_libkv_intrnl.h"
+#include "dbg_print.h"
 #include <kvfile.h>
 #include <stdlib.h>
 #include <string.h>
