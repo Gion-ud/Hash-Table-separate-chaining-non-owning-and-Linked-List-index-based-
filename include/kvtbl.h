@@ -2,8 +2,6 @@
 
 #include <_kvapi.h>
 #include <kvht.h>
-#include <kvimg.h>
-#include <kvfile.h>
 #include <kvarena.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -11,6 +9,14 @@
 typedef struct KVTable KVTable;
 typedef KVArenaEntry KVTableEntry;
 typedef KVArenaEntryView KVTableEntryView;
+
+struct KVTable {
+    kvht_t     *ht_p;
+    KVArena    *kva_p;
+    uint32_t    size;
+    uint32_t    delcnt;
+    uint32_t    capacity;
+};
 
 LIBKV_API KVTable *Create_KVTable(uint32_t entry_capacity);
 LIBKV_API void Destroy_KVTable(KVTable *kvtbl_p);
@@ -36,4 +42,12 @@ LIBKV_API const KVTableEntryView *KVTable_GetEntryView(
 LIBKV_API int KVTable_Compact(
     KVTable    *kvtbl_p
 );
-
+LIBKV_API int KVTable_BuildKVImageBuffer(
+    const KVTable  *kvtbl_p,
+    unsigned char **out_filebuf_pp,
+    size_t         *out_filesize_p
+);
+LIBKV_API void KVTable_DestroyKVImageBuffer(
+    const KVTable  *kvtbl_p,
+    unsigned char **out_filebuf_pp
+);

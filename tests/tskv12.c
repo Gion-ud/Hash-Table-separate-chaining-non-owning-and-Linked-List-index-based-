@@ -32,7 +32,7 @@ cstr_kv_t kvtbl[] = {
     {"realloc", "libc:stdlib.h:realloc"},
     {"free", "libc:stdlib.h:free"},
 };
-const uint32_t kvtbl_len = sizeof(kvtbl) / sizeof(*kvtbl);
+const uint32_t kvtbl_len = sizeof(kvtbl) / sizeof(*kvtbl);  
 
 static inline void tskv_print_ev(KVTableEntryView *evp) {
     printf(
@@ -44,15 +44,6 @@ static inline void tskv_print_ev(KVTableEntryView *evp) {
         evp->val_len,(char*)evp->val_p
     );
 }
-
-#define stack_alloc_arr(T, N) (T[N]){0}
-#define heap_alloc(T) (T*)calloc(1, sizeof(T))
-#define heap_alloc_arr(T, n) (T*)calloc(n, sizeof(T))
-#define heap_free(ptr) free(ptr)
-#define heap_new(T) heap_alloc(T)
-#define heap_new_arr(T, n) heap_alloc_arr(T, n)
-
-
 
 int main() {
     KVTable *kvtbl_p = Create_KVTable(1);
@@ -73,29 +64,19 @@ int main() {
     }
     puts("");
 
-    puts(" -- 2. get all kv -- ");
-    KVArenaIterator it_begin = kvarena_iterator_begin(kvtbl_p->kva_p);
-    KVArenaIterator it_end = kvarena_iterator_end(kvtbl_p->kva_p);
-    KVArenaIterator it = {0};
-    for (
-        it = it_begin; it != it_end;
-        it = kvarena_iterator_next(kvtbl_p->kva_p, it)
-    ) {
-        KVTableEntryView ev = {0};
-        kvarena_entry_to_entview(kvtbl_p->kva_p, it, &ev);
-        printf("[%td] ", it - it_begin);tskv_print_ev(&ev);
-    }
-    puts("");
-
-    KVArenaIterator it_rbegin = kvarena_iterator_rbegin(kvtbl_p->kva_p);
-    KVArenaIterator it_rend = kvarena_iterator_rend(kvtbl_p->kva_p);
-    for (
-        it = it_rbegin; it != it_rend;
-        it = kvarena_iterator_rnext(kvtbl_p->kva_p, it)
-    ) {
-        KVTableEntryView ev = {0};
-        kvarena_entry_to_entview(kvtbl_p->kva_p, it, &ev);
-        printf("[%td] ", it - it_begin);tskv_print_ev(&ev);
+    __auto_type kva_ent_tbl = (KVArenaEntry*)kvarena_entrytbl(kvtbl_p->kva_p);
+    assert(kva_ent_tbl);
+    puts(" -- 2. get all kvarena kv -- ");
+    for (uint32_t i = 0u; i < kvtbl_p->size; ++i) {
+        __auto_type kva_ent_p = &kva_ent_tbl[i];
+        KVArenaEntryView ev = {0};
+        __auto_type __evp = kvarena_entry_to_entview(kvtbl_p->kva_p, kva_ent_p, &ev);
+        assert(__evp);
+        tskv_print_ev(&ev);
+        printf(
+            "%s -> '%.*s'\t@it [%u]\n",
+            ev.key_p, ev.val_len, (char*)ev.val_p, i
+        );
     }
     puts("");
 
@@ -104,9 +85,15 @@ int main() {
         kvht_key_t hk = {0};
         make_hash_key_from_cstr(&hk, kvtbl[i].key);
         KVTableEntryView ev = {0};
-        __auto_type __evp = KVTable_GetEntryView(
+        __auto_type __ep = KVTable_GetEntry(
             kvtbl_p,
-            &hk,
+            &hk
+        );
+        assert(__ep);
+        //assert(__ep == &kva_ent_tbl[i]);
+        __auto_type __evp = kvarena_entry_to_entview(
+            kvtbl_p->kva_p,
+            __ep,
             &ev
         );
         assert(__evp);
@@ -142,15 +129,18 @@ int main() {
         kvht_key_t hk = {0};
         make_hash_key_from_cstr(&hk, kvtbl[i].key);
         KVTableEntryView ev = {0};
-        __auto_type __evp = KVTable_GetEntryView(
+        __auto_type __ep = KVTable_GetEntry(
             kvtbl_p,
-            &hk,
+            &hk
+        );
+        if (!__ep) continue;
+        //assert(__ep == &kva_ent_tbl[i]);
+        __auto_type __evp = kvarena_entry_to_entview(
+            kvtbl_p->kva_p,
+            __ep,
             &ev
         );
-        if (!__evp) {
-            puts("lookup failed");
-            continue;
-        }
+        assert(__evp);
         tskv_print_ev(&ev);
 
         printf(
@@ -170,15 +160,18 @@ int main() {
         kvht_key_t hk = {0};
         make_hash_key_from_cstr(&hk, kvtbl[i].key);
         KVTableEntryView ev = {0};
-        __auto_type __evp = KVTable_GetEntryView(
+        __auto_type __ep = KVTable_GetEntry(
             kvtbl_p,
-            &hk,
+            &hk
+        );
+        if (!__ep) continue;
+        //assert(__ep == &kva_ent_tbl[i]);
+        __auto_type __evp = kvarena_entry_to_entview(
+            kvtbl_p->kva_p,
+            __ep,
             &ev
         );
-        if (!__evp) {
-            puts("lookup failed");
-            continue;
-        }
+        assert(__evp);
         tskv_print_ev(&ev);
 
         printf(
@@ -188,17 +181,6 @@ int main() {
     }
     puts("");
     printf("entc: %u\n", kvtbl_p->size);
-
-    int *p = stack_alloc_arr(int, 4);
-    p[0] = 0;
-    p[1] = 1;
-    p[2] = 2;
-    p[3] = 3;
-    for (__auto_type i = 0u; i < 4; ++i) {
-        printf("%d\n", p[i]);
-    }
-    
-
 
 
     Destroy_KVTable(kvtbl_p);

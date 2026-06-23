@@ -16,39 +16,49 @@ EXPORTS
     KVFile_DestroyBuilderBuffer @15
     KVFile_Fini @16
     KVFile_Init @17
-    KVTable_Compact @18
-    KVTable_GetEntry @19
-    KVTable_GetEntryView @20
-    KVTable_Insert @21
-    KVTable_Remove @22
-    __IMPORT_DESCRIPTOR_zlib1 @23 DATA
-    __NULL_IMPORT_DESCRIPTOR @24 DATA
-    create_kvarena @25
-    create_kvht @26
-    destroy_kvarena @27
-    destroy_kvht @28
-    kvarena_build_memimg_buf @29
-    kvarena_capacity @30
-    kvarena_compact @31
-    kvarena_data @32
-    kvarena_data_len @33
-    kvarena_data_size @34
-    kvarena_destroy_memimg_buf @35
-    kvarena_entry_to_entview @36
-    kvarena_entrytbl @37
-    kvarena_get @38
-    kvarena_get_entry @39
-    kvarena_grow @40
-    kvarena_is_empty @41
-    kvarena_is_full @42
-    kvarena_mark_dead @43
-    kvarena_pop @44
-    kvarena_push @45
-    kvarena_push_auto_grow @46
-    kvarena_size @47
-    kvht_get_slot @48
-    kvht_insert @49
-    kvht_lookup @50
-    kvht_remove @51
-    kvht_slot_capacity @52
-    kvht_slot_count @53
+    KVTable_BuildKVImageBuffer @18
+    KVTable_Compact @19
+    KVTable_DestroyKVImageBuffer @20
+    KVTable_GetEntry @21
+    KVTable_GetEntryView @22
+    KVTable_Insert @23
+    KVTable_Remove @24
+    __IMPORT_DESCRIPTOR_zlib1 @25 DATA
+    __NULL_IMPORT_DESCRIPTOR @26 DATA
+    create_kvarena @27
+    create_kvht @28
+    destroy_kvarena @29
+    destroy_kvht @30
+    kvarena_build_memimg_buf @31
+    kvarena_capacity @32
+    kvarena_compact @33
+    kvarena_data @34
+    kvarena_data_len @35
+    kvarena_data_size @36
+    kvarena_delcnt @37
+    kvarena_destroy_memimg_buf @38
+    kvarena_entry_to_entview @39
+    kvarena_entrytbl @40
+    kvarena_get @41
+    kvarena_get_entry @42
+    kvarena_grow @43
+    kvarena_is_empty @44
+    kvarena_is_entry_valid @45
+    kvarena_is_full @46
+    kvarena_iterator_begin @47
+    kvarena_iterator_end @48
+    kvarena_iterator_next @49
+    kvarena_iterator_rbegin @50
+    kvarena_iterator_rend @51
+    kvarena_iterator_rnext @52
+    kvarena_mark_dead @53
+    kvarena_pop @54
+    kvarena_push @55
+    kvarena_push_auto_grow @56
+    kvarena_size @57
+    kvht_get_slot @58
+    kvht_insert @59
+    kvht_lookup @60
+    kvht_remove @61
+    kvht_slot_capacity @62
+    kvht_slot_count @63

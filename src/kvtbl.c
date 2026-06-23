@@ -5,18 +5,11 @@
 #include <kvimg.h>
 #include <kvfile.h>
 #include <kvarena.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #include "_kvarena.inl"
 #include "dbg_print.h"
-
-struct KVTable {
-    kvht_t     *ht_p;
-    KVArena    *kva_p;
-    uint32_t    size;
-    uint32_t    delcnt;
-    uint32_t    capacity;
-};
 
 #include <stdlib.h>
 #include <string.h>
@@ -54,12 +47,33 @@ failed_ret:
     _dbg_log_msg("-1.ret");
     return NULL;
 }
+/*
+int Create_KVTable_LoadKVImage(
+    int     fd
+) {
+    _dbg_log_msg("");
+
+    KVFile kvf = {0};
+    KVFile_Init(&kvf);
+    int rc = KVFileReader_MapFile(&kvf, fd);
+    if (rc < 0) goto failed;
+
+    KVFileReader_UnmapFile(&kvf);
+    KVFile_Fini(&kvf);
+    return 0;
+failed:
+    KVFile_Fini(&kvf);
+failed_ret:
+    return -1;
+}
+
+*/
 
 void Destroy_KVTable(
     KVTable *kvtbl_p
 ) {
     _dbg_log_msg("");
-    if (kvtbl_p) return;
+    if (!kvtbl_p) return;
     if (kvtbl_p->ht_p) free(kvtbl_p->ht_p);
     if (kvtbl_p->kva_p) free(kvtbl_p->kva_p);
     free(kvtbl_p);
@@ -251,5 +265,36 @@ const KVTableEntryView *KVTable_GetEntryView(
     return kvarena_entry_to_entview(kvtbl_p->kva_p, kva_ent_p, out_ev_p);
 failed_ret:
     return NULL;
+}
+
+int KVTable_BuildKVImageBuffer(
+    const KVTable  *kvtbl_p,
+    unsigned char **out_filebuf_pp,
+    size_t         *out_filesize_p
+) {
+    _dbg_log_msg("");
+    if (!kvtbl_p) goto failed_ret;
+    int ret = kvarena_build_memimg_buf(
+        kvtbl_p->kva_p,
+        out_filebuf_pp,
+        out_filesize_p
+    );
+    if (ret < 0) goto failed_ret;
+
+    return 0;
+failed_ret:
+    return -1;
+}
+
+void KVTable_DestroyKVImageBuffer(
+    const KVTable  *kvtbl_p,
+    unsigned char **out_filebuf_pp
+) {
+    _dbg_log_msg("");
+    if (!kvtbl_p) return;
+    kvarena_destroy_memimg_buf(
+        kvtbl_p->kva_p,
+        out_filebuf_pp
+    );
 }
 

@@ -22,6 +22,7 @@ typedef KVFileEntry KVArenaEntry;
 #define KVA_ENT_DEAD    2
 
 typedef struct KVArena KVArena;
+typedef KVArenaEntry *KVArenaIterator;
 
 typedef struct KVArenaEntryView {
     uint32_t    key_hash;
@@ -55,8 +56,13 @@ LIBKV_API int32_t kvarena_get(
     uint32_t            ent_idx,
     KVArenaEntryView   *out_entview_p
 );
+LIBKV_API int kvarena_is_entry_valid(
+    const KVArena  *kva_p,
+    uint32_t        ent_idx
+);
 
 LIBKV_API uint32_t kvarena_size(KVArena *kva_p);
+LIBKV_API uint32_t kvarena_delcnt(KVArena *kva_p);
 LIBKV_API uint32_t kvarena_capacity(KVArena *kva_p);
 LIBKV_API uint32_t kvarena_data_len(KVArena *kva_p);
 LIBKV_API uint32_t kvarena_data_size(KVArena *kva_p);
@@ -80,6 +86,20 @@ LIBKV_API const KVArenaEntryView *kvarena_entry_to_entview(
     const KVArena      *kva_p,
     const KVArenaEntry *ent_p,
     KVArenaEntryView   *out_entview_p
+);
+
+LIBKV_API KVArenaIterator kvarena_iterator_begin(const KVArena *kva_p);
+LIBKV_API KVArenaIterator kvarena_iterator_end(const KVArena *kva_p);
+LIBKV_API KVArenaIterator kvarena_iterator_next(
+    const KVArena      *kva_p,
+    KVArenaIterator     it
+);
+
+LIBKV_API KVArenaIterator kvarena_iterator_rbegin(const KVArena *kva_p);
+LIBKV_API KVArenaIterator kvarena_iterator_rend(const KVArena *kva_p);
+LIBKV_API KVArenaIterator kvarena_iterator_rnext(
+    const KVArena      *kva_p,
+    KVArenaIterator     it
 );
 
 
