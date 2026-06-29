@@ -1,0 +1,10 @@
+EXPORTS
+    Create_KVTable @1
+    Destroy_KVTable @2
+    KVTable_BuildKVImageBuffer @3
+    KVTable_Compact @4
+    KVTable_DestroyKVImageBuffer @5
+    KVTable_GetEntry @6
+    KVTable_GetEntryView @7
+    KVTable_Insert @8
+    KVTable_Remove @9

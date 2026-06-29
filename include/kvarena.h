@@ -102,4 +102,6 @@ LIBKV_API KVArenaIterator kvarena_iterator_rnext(
     KVArenaIterator     it
 );
 
+#define kvarena_iterator_deref(kva_p, iter, out_entview_p) \
+    kvarena_entry_to_entview(kva_p, iter, out_entview_p)
 

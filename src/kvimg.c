@@ -3,6 +3,8 @@
 #include <kvfile.h>
 #include <stdlib.h>
 #include "_kvarena.inl"
+#include "_kvfile_intrnl.h"
+
 
 int kvarena_build_memimg_buf(
     KVArena        *kva_p,
@@ -22,7 +24,7 @@ int kvarena_build_memimg_buf(
     KVFile_Init(&kvf);
     _dbg_print("kvarena_build_memimg_buf@2.KVFile_CreateBuilderBuffer");
     int ret =
-        KVFile_CreateBuilderBuffer(
+        _KVFile_CreateBuilderBuffer(
             &kvf,
             kva_p->data_buf_len,
             kva_p->entrycnt,
@@ -30,13 +32,13 @@ int kvarena_build_memimg_buf(
         );
     if (ret < 0) goto failed;
     _dbg_print("kvarena_build_memimg_buf@3.KVFileBuilder_WriteFileHeader");
-    if (!KVFileBuilder_WriteFileHeader(&kvf)) goto failed;
+    if (!_KVFileBuilder_WriteFileHeader(&kvf)) goto failed;
     _dbg_print("kvarena_build_memimg_buf@4.KVFileBuilder_WriteEntryTable");
-    if (!KVFileBuilder_WriteEntryTable(&kvf, kva_p->entrytbl)) goto failed;
+    if (!_KVFileBuilder_WriteEntryTable(&kvf, kva_p->entrytbl)) goto failed;
     _dbg_print("kvarena_build_memimg_buf@5.KVFileBuilder_WriteDataSection");
-    if (!KVFileBuilder_WriteDataSection(&kvf, kva_p->data_buf)) goto failed;
+    if (!_KVFileBuilder_WriteDataSection(&kvf, kva_p->data_buf)) goto failed;
     _dbg_print("kvarena_build_memimg_buf@6.KVFileBuilder_WriteFileFooter");
-    if (!KVFileBuilder_WriteFileFooter(&kvf)) goto failed;
+    if (!_KVFileBuilder_WriteFileFooter(&kvf)) goto failed;
 
     assert(kvf.buf_base);
     assert(kvf.buf_end);
@@ -51,7 +53,7 @@ int kvarena_build_memimg_buf(
     kvf.buf_end = NULL;
 
     _dbg_print("kvarena_build_memimg_buf@9.KVFile_DestroyBuilderBuffer");
-    KVFile_DestroyBuilderBuffer(&kvf);
+    _KVFile_DestroyBuilderBuffer(&kvf);
     _dbg_print("kvarena_build_memimg_buf@10.KVFile_Fini");
     KVFile_Fini(&kvf);
 
@@ -59,7 +61,7 @@ int kvarena_build_memimg_buf(
     return 0;
 failed:
     _dbg_print("kvarena_build_memimg_buf@-1.failed\n");
-    KVFile_DestroyBuilderBuffer(&kvf);
+    _KVFile_DestroyBuilderBuffer(&kvf);
     KVFile_Fini(&kvf);
 failed_ret:
     _dbg_print("kvarena_build_memimg_buf@-1.failed_ret\n");

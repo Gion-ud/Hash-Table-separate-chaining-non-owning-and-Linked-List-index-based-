@@ -1,5 +1,6 @@
 #pragma once
 
+#include "kvfile_def.h"
 #include <_kvapi.h>
 #include <kvht.h>
 #include <kvarena.h>
@@ -9,6 +10,7 @@
 typedef struct KVTable KVTable;
 typedef KVArenaEntry KVTableEntry;
 typedef KVArenaEntryView KVTableEntryView;
+typedef KVArenaIterator KVTableIterator;
 
 struct KVTable {
     kvht_t     *ht_p;
@@ -51,3 +53,28 @@ LIBKV_API void KVTable_DestroyKVImageBuffer(
     const KVTable  *kvtbl_p,
     unsigned char **out_filebuf_pp
 );
+
+LIBKV_INLINED KVTableIterator
+KVTableIterator_Begin(const KVTable *kvtbl_p) {
+    return (!kvtbl_p) ? NULL : kvarena_iterator_begin(kvtbl_p->kva_p);
+}
+LIBKV_INLINED KVTableIterator
+KVTableIterator_End(const KVTable *kvtbl_p) {
+    return (!kvtbl_p) ? NULL : kvarena_iterator_end(kvtbl_p->kva_p);
+}
+LIBKV_INLINED KVTableIterator
+KVTableIterator_Next(
+    const KVTable      *kvtbl_p,
+    KVTableIterator     iter
+) {
+    return (!kvtbl_p) ? NULL : kvarena_iterator_next(kvtbl_p->kva_p, iter);
+}
+
+LIBKV_INLINED const KVTableEntryView *KVTableIterator_Deref(
+    const KVTable          *kvtbl_p,
+    const KVTableIterator   iter,
+    KVTableEntryView       *out_entview_p
+) {
+    return (!kvtbl_p) ? NULL : 
+        kvarena_entry_to_entview(kvtbl_p->kva_p, iter, out_entview_p);
+}

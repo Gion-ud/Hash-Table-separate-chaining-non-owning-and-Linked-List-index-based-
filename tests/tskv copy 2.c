@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +7,6 @@
 #include <unistd.h>
 
 #include <kvtbl.h>
-#include <kvht.h>
-#include <kvimg.h>
 #define _USING_HASH_TABLE_UTILS
 
 
@@ -139,6 +136,7 @@ int main() {
     }
     puts("");
 
+
     puts(" -- 5. lookup kv -- ");
     for (uint32_t i = 0u; i < kvtbl_len; ++i) {
         kvht_key_t hk = {0};
@@ -162,22 +160,6 @@ int main() {
     }
     puts("");
 
-
-    puts("6.1 iterate kv arena after deletion");
-    it_begin = KVTableIterator_Begin(kvtbl_p);
-    it_end = KVTableIterator_End(kvtbl_p);
-    for (
-        it = it_begin; it != it_end;
-        it = KVTableIterator_Next(kvtbl_p, it)
-    ) {
-        KVTableEntryView ev = {0};
-        KVTableIterator_Deref(kvtbl_p, it, &ev);
-        if (!kvarena_is_entry_valid(kvtbl_p->kva_p, it - it_begin)) {
-            printf("[WARNING] ENTRY DEAD ");
-        }
-        printf("[%td] ", it - it_begin);tskv_print_ev(&ev);
-    }
-    puts("");
 
     puts(" -- 6. Compaction -- ");
     KVTable_Compact(kvtbl_p);
@@ -206,147 +188,18 @@ int main() {
     }
     puts("");
     printf("entc: %u\n", kvtbl_p->size);
-{
-    puts(" -- 8. clear ht -- ");
-    kvht_clear(kvtbl_p->ht_p);
 
-    puts(" -- 9. rebuild ht -- ");
-    it_begin = KVTableIterator_Begin(kvtbl_p);
-    it_end = KVTableIterator_End(kvtbl_p);
-    for (
-        it = it_begin; it != it_end;
-        it = KVTableIterator_Next(kvtbl_p, it)
-    ) {
-        KVTableEntryView ev = {0};
-        KVTableIterator_Deref(kvtbl_p, it, &ev);
-        int rc = kvht_insert(
-            kvtbl_p->ht_p,
-            &(const kvht_key_t){
-                .hash       = ev.key_hash,
-                .key_len    = ev.key_len,
-                .key_buf    = ev.key_p,
-            },
-            it
-        );
-        assert(rc != -1);
+    int *p = stack_alloc_arr(int, 4);
+    p[0] = 0;
+    p[1] = 1;
+    p[2] = 2;
+    p[3] = 3;
+    for (__auto_type i = 0u; i < 4; ++i) {
+        printf("%d\n", p[i]);
     }
-
-    puts(" -- 10. lookup ht -- ");
-    it_begin = KVTableIterator_Begin(kvtbl_p);
-    it_end = KVTableIterator_End(kvtbl_p);
-    for (
-        it = it_begin; it != it_end;
-        it = KVTableIterator_Next(kvtbl_p, it)
-    ) {
-        KVTableEntryView ev = {0};
-        KVTableIterator_Deref(kvtbl_p, it, &ev);
-        kvht_slot_handle_t hsh = {0};
-        int rc = kvht_lookup(
-            kvtbl_p->ht_p,
-            &(const kvht_key_t){
-                .hash       = ev.key_hash,
-                .key_len    = ev.key_len,
-                .key_buf    = ev.key_p,
-            },
-            &hsh
-        );
-        assert(rc != -1);
-        __auto_type slot_p = kvht_get_slot(kvtbl_p->ht_p, &hsh);
-        assert(slot_p);
-        kvarena_entry_to_entview(
-            kvtbl_p->kva_p,
-            (const KVArenaEntry*)slot_p->data,
-            &ev
-        );
-        tskv_print_ev(&ev);
-    }
-    puts("");
-}
+    
 
 
-{
-    puts(" -- 11. reinsert all keys -- ");
-    for (uint32_t i = 0u; i < kvtbl_len; ++i) {
-        printf("@it %u\n", i);
-        kvht_key_t hk = {0};
-        make_hash_key_from_cstr(&hk, kvtbl[i].key);
-        int rc = KVTable_Insert(
-            kvtbl_p,
-            &hk,
-            kvtbl[i].value,
-            strlen(kvtbl[i].value)
-        );
-        assert(rc != -1);
-    }
-    puts("");
-
-    puts(" -- 12. lookup ht -- ");
-    it_begin = KVTableIterator_Begin(kvtbl_p);
-    it_end = KVTableIterator_End(kvtbl_p);
-    for (
-        it = it_begin; it != it_end;
-        it = KVTableIterator_Next(kvtbl_p, it)
-    ) {
-        KVTableEntryView ev = {0};
-        KVTableIterator_Deref(kvtbl_p, it, &ev);
-        kvht_slot_handle_t hsh = {0};
-        int rc = kvht_lookup(
-            kvtbl_p->ht_p,
-            &(const kvht_key_t){
-                .hash       = ev.key_hash,
-                .key_len    = ev.key_len,
-                .key_buf    = ev.key_p,
-            },
-            &hsh
-        );
-        assert(rc != -1);
-        __auto_type slot_p = kvht_get_slot(kvtbl_p->ht_p, &hsh);
-        assert(slot_p);
-        kvarena_entry_to_entview(
-            kvtbl_p->kva_p,
-            (const KVArenaEntry*)slot_p->data,
-            &ev
-        );
-        tskv_print_ev(&ev);
-    }
-    puts("");
-}
-
-    puts(" -- 13. serialisation -- ");
-
-    unsigned char *filebuf = NULL;
-    size_t filesize = 0ul;
-    int rc = KVTable_BuildKVImageBuffer(kvtbl_p, &filebuf, &filesize);
-    assert(rc != -1);
-    FILE *fp = fopen("data.bin", "wb");
-    assert(fp);
-
-    fwrite(filebuf, 1, filesize, fp);
-
-    fclose(fp);
-    KVTable_DestroyKVImageBuffer(kvtbl_p, &filebuf);
-
-    puts(" -- 14. reload -- ");
-    KVFile kvf = {0};
-    fp = fopen("data.bin", "rb+");
-    assert(fp);
-
-    KVFileReader_MapFile(&kvf, fileno(fp));
-
-    for (uint32_t i = 0u; i < kvf.entrycnt; ++i) {
-        __auto_type ent_p = KVFileReader_GetFileEntryChked(&kvf, i);
-        assert(ent_p);
-        KVArenaEntryView ev = {0};
-        __auto_type _evp = KVFileReader_EntryViewFromFileEntry(&kvf, ent_p, &ev);
-        assert(_evp);
-        printf("[%u] %s %.*s\n", i, ev.key_p, ev.val_len, (char*)ev.val_p);
-    }
-
-
-    KVFileReader_UnmapFile(&kvf);
-
-
-    fclose(fp);
 
     Destroy_KVTable(kvtbl_p);
     return 0;

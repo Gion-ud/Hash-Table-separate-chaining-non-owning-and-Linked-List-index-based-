@@ -42,36 +42,6 @@ _kvht_dbg_print_slot(int slot_idx, kvht_slot_t *slot_p) {
     (void)slot_p;
 }
 
-LIBKV_INTRNL void _kvht_clear(
-    kvht_t         *ht_p,
-    unsigned int    slot_cap,
-    unsigned int    bucket_cnt    
-) {
-    _dbg_log_msg("#0");
-    memset(ht_p->bucket_arr, 0xFF, sizeof(*ht_p->bucket_arr) * bucket_cnt);  // 0xFFFFFFFF == (int32_t)-1
-
-    _dbg_log_msg("#1 loop");
-    for (unsigned int i = 0u; i < slot_cap; ++i) {
-        ht_p->slot_arr[i].key       = NULL;
-        ht_p->slot_arr[i].key_len   = 0;
-        ht_p->slot_arr[i].hash      = 0;
-        ht_p->slot_arr[i].data      = NULL;
-        ht_p->slot_arr[i].prev_idx  = NULL_IDX;
-        ht_p->slot_arr[i].next_idx  = NULL_IDX;
-        ht_p->slot_free_list[i]     = i + 1;
-        ht_p->cntl_arr[i]           = SLOT_EMPTY;
-    }
-    ht_p->slot_free_list[slot_cap - 1] = NULL_IDX;
-
-    _dbg_log_msg("#2");
-    ht_p->free_head_idx     = 0;
-    ht_p->slot_count        = 0;
-    ht_p->slot_capacity     = slot_cap;
-    ht_p->bucket_count      = bucket_cnt;
-
-    _dbg_log_msg("ret\n");
-}
-
 kvht_t *
 create_kvht(
     unsigned int bucket_count, 
@@ -81,12 +51,12 @@ create_kvht(
     if (slot_capacity < HT_MIN_NSLOT) slot_capacity = HT_MIN_NSLOT;
 
     kvht_t *ht_p = (kvht_t*)malloc(sizeof(kvht_t));
-    _dbg_log_msg("#0");
+    _dbg_log_msg("0");
     assert(ht_p);
     if (!ht_p) goto failed;
     memset(ht_p, 0, sizeof(*ht_p)); /* Very important: zero init */
 
-    _dbg_log_msg("#1");
+    _dbg_log_msg("1");
     ht_p->slot_arr          = (kvht_slot_t*)malloc(slot_capacity * sizeof(*ht_p->slot_arr));
     ht_p->slot_free_list    = (int*)malloc(slot_capacity * sizeof(*ht_p->slot_free_list));
     ht_p->cntl_arr          = (unsigned char*)malloc(slot_capacity * sizeof(*ht_p->cntl_arr));
@@ -97,9 +67,26 @@ create_kvht(
     assert(ht_p->bucket_arr);
     if (!ht_p->slot_arr || !ht_p->bucket_arr || !ht_p->slot_free_list || !ht_p->cntl_arr)
         goto failed;
+    memset(ht_p->bucket_arr, 0xFF, sizeof(*ht_p->bucket_arr) * bucket_count);  // 0xFFFFFFFF == (int32_t)-1
 
-    _dbg_log_msg("#2 _kvht_clear");
-    _kvht_clear(ht_p, slot_capacity, bucket_count);
+    _dbg_log_msg("2 # loop");
+    for (unsigned int i = 0u; i < slot_capacity; ++i) {
+        ht_p->slot_arr[i].key       = NULL;
+        ht_p->slot_arr[i].key_len   = 0;
+        ht_p->slot_arr[i].hash      = 0;
+        ht_p->slot_arr[i].data      = NULL;
+        ht_p->slot_arr[i].prev_idx  = NULL_IDX;
+        ht_p->slot_arr[i].next_idx  = NULL_IDX;
+        ht_p->slot_free_list[i]     = i + 1;
+        ht_p->cntl_arr[i]           = SLOT_EMPTY;
+    }
+    ht_p->slot_free_list[slot_capacity - 1] = NULL_IDX;
+
+    _dbg_log_msg("3");
+    ht_p->free_head_idx     = 0;
+    ht_p->slot_count        = 0;
+    ht_p->slot_capacity     = slot_capacity;
+    ht_p->bucket_count      = bucket_count;
 
     _dbg_log_msg("0.ret\n");
     return ht_p;
@@ -412,18 +399,3 @@ unsigned int kvht_slot_count(const kvht_t *ht_p) {
     return (!ht_p) ? 0 : ht_p->slot_count;
 }
 
-int kvht_clear(kvht_t *ht_p) {
-    _dbg_log_msg("#0");
-    if (!_is_valid_storage_ht(ht_p)) goto failed_ret;
-    if (!ht_p->slot_count) goto success_ret;
-    _ht_assert_intrnl_state(ht_p);
-
-    _dbg_log_msg("#1 _kvht_clear");
-    _kvht_clear(ht_p, ht_p->slot_capacity, ht_p->bucket_count);
-success_ret:
-    _dbg_log_msg("0.ret\n");
-    return 0;
-failed_ret:
-    _dbg_log_msg("-1.ret\n");
-    return -1;
-}

@@ -297,4 +297,3 @@ void KVTable_DestroyKVImageBuffer(
         out_filebuf_pp
     );
 }
-

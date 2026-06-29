@@ -56,3 +56,7 @@ LIBKV_API const kvht_slot_t *kvht_get_slot(
     const kvht_slot_handle_t   *slot_handle_p
 );
 
+
+// new api since 24/June/2026
+LIBKV_API int kvht_clear(kvht_t *ht_p);
+

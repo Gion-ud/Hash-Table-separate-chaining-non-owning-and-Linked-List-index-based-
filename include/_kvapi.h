@@ -5,3 +5,5 @@
 #else
 #define LIBKV_API extern
 #endif
+
+#define LIBKV_INLINED static inline __attribute__((unused))

@@ -8,25 +8,13 @@
 #include "alignoff.h"
 #include <compute_crc32.h>
 #include <assert.h>
+#include "_kvfile_intrnl.h"
 
 #define KV_FILE_MAGIC 0x46564BEFu
 #define KV_FILE_EOF_MARKER 0x464F452Eu
 #define KV_FILE_VERSION 0x0101u
 #define KV_FILE_ALIGN 4u
 #define KV_FILE_FLAGS (1u << 0)
-
-
-KVFile *Create_KVFile() {
-    KVFile *kvf_p = (KVFile*)malloc(sizeof(KVFile));
-    if (!kvf_p) goto failed_ret;
-    memset(kvf_p, 0, sizeof(*kvf_p));
-    return kvf_p;
-failed_ret:
-    return NULL;
-}
-void Destroy_KVFile(KVFile *kvf_p) {
-    if (kvf_p) free(kvf_p);
-}
 
 int KVFile_Init(KVFile *kvf_p) {
     if (!kvf_p) goto failed_ret;
@@ -52,7 +40,7 @@ _KVFileBuilder_RequiredBufferSize(
         align_off(sizeof(KVFileFooter), align);
 }
 
-int KVFile_CreateBuilderBuffer(
+int _KVFile_CreateBuilderBuffer(
     KVFile     *kvf_p,
     uint32_t    data_len,
     uint32_t    entrycnt,
@@ -96,13 +84,13 @@ int KVFile_CreateBuilderBuffer(
     return 0;
 failed:
     _dbg_print("KVFile_CreateBuilderBuffer@-1.failed\n");
-    KVFile_DestroyBuilderBuffer(kvf_p);
+    _KVFile_DestroyBuilderBuffer(kvf_p);
 failed_ret:
     _dbg_print("KVFile_CreateBuilderBuffer@-1.failed_ret\n");
     return -1;
 }
 
-void KVFile_DestroyBuilderBuffer(KVFile *kvf_p) {
+void _KVFile_DestroyBuilderBuffer(KVFile *kvf_p) {
     _dbg_print("KVFile_DestroyBuilderBuffer@0\n");
     if (!kvf_p || !kvf_p->buf_base) goto scope_end;
     if (kvf_p->buf_base) free(kvf_p->buf_base);
@@ -111,7 +99,7 @@ scope_end:
     _dbg_print("KVFile_DestroyBuilderBuffer@exit\n");
 }
 
-const KVFileHeader *KVFileBuilder_WriteFileHeader(KVFile *kvf_p) {
+const KVFileHeader *_KVFileBuilder_WriteFileHeader(KVFile *kvf_p) {
     _dbg_print("KVFileBuilder_WriteFileHeader@0");
     assert(kvf_p);
     assert(kvf_p->header_p);
@@ -133,7 +121,7 @@ failed:
     return NULL;
 }
 
-const KVFileEntry *KVFileBuilder_WriteEntryTable(KVFile *kvf_p, KVFileEntry *entrytbl) {
+const KVFileEntry *_KVFileBuilder_WriteEntryTable(KVFile *kvf_p, KVFileEntry *entrytbl) {
     _dbg_print("KVFileBuilder_WriteEntryTable@0");
     if (!kvf_p || !kvf_p->entrytbl) goto failed;
     memcpy(kvf_p->entrytbl, entrytbl, kvf_p->entrycnt * sizeof(KVFileEntry));
@@ -144,7 +132,7 @@ failed:
     return NULL;
 }
 
-const unsigned char *KVFileBuilder_WriteDataSection(KVFile *kvf_p, void *data_p) {
+const unsigned char *_KVFileBuilder_WriteDataSection(KVFile *kvf_p, void *data_p) {
     _dbg_print("KVFileBuilder_WriteDataSection@0");
     if (!kvf_p || !kvf_p->data_p) goto failed;
     memcpy(kvf_p->data_p, data_p, kvf_p->data_len);
@@ -155,7 +143,7 @@ failed:
     return NULL;
 }
 
-const KVFileFooter *KVFileBuilder_WriteFileFooter(KVFile *kvf_p) {
+const KVFileFooter *_KVFileBuilder_WriteFileFooter(KVFile *kvf_p) {
     _dbg_print("KVFileBuilder_WriteFileFooter@0");
     if (!kvf_p || !kvf_p->footer_p) goto failed;
     uint32_t footeroff = (uint32_t)(
@@ -172,10 +160,10 @@ failed:
     return NULL;
 }
 
-const unsigned char *KVFileBuilder_DataBufferBase(KVFile *kvf_p) {
+const unsigned char *_KVFileBuilder_DataBufferBase(KVFile *kvf_p) {
     return (!kvf_p || !kvf_p->buf_base) ? NULL : kvf_p->buf_base;
 }
-const unsigned char *KVFileBuilder_DataBufferEnd(KVFile *kvf_p) {
+const unsigned char *_KVFileBuilder_DataBufferEnd(KVFile *kvf_p) {
     return (!kvf_p || !kvf_p->buf_end) ? NULL : kvf_p->buf_end;
 }
 
