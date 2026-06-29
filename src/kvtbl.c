@@ -111,6 +111,9 @@ failed_ret:
     return NULL;
 }
 
+// kvht_insert does NOT copy key/data (non-owning view)
+// you MUST insert with kvht_key refering to the copy in kvarena
+// Do NOT insert kvht_key from user directly into kvht
 int KVTable_Insert(
     KVTable            *kvtbl_p,
     const kvht_key_t   *kvht_key_p,
@@ -147,8 +150,11 @@ int KVTable_Insert(
 
     __auto_type kva_ent_p = kvarena_get_entry(kvtbl_p->kva_p, kva_ent_idx);
     assert(kva_ent_p);
+    KVArenaEntryView ev = {0};
+    kvarena_entry_to_entview(kvtbl_p->kva_p, kva_ent_p, &ev);
 
-    int rc = kvht_insert(kvtbl_p->ht_p, kvht_key_p, kva_ent_p);
+    kvht_key_t __hk = { ev.key_p, ev.key_len, ev.key_hash };
+    int rc = kvht_insert(kvtbl_p->ht_p, &__hk, kva_ent_p);
     if (rc < 0) {
         kvarena_mark_dead(kvtbl_p->kva_p, kva_ent_idx);
         goto failed_ret;

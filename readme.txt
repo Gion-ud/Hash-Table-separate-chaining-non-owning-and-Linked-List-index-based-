@@ -21,6 +21,7 @@ doubly linked list, with node pool allocator and index based addressing.
     - better encapsulation
     - implm more completed wrappers around kvht, kvarena and kvfile
     - potentially building another separate lib (libkvtbl)
+    - fix shallow copy problem (top priority)
 
 5. the whole project:
     - more testing (especially on kvfile)

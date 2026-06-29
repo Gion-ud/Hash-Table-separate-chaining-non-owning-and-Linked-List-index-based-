@@ -1,7 +1,7 @@
 all: \
 	kvht.o kvarena.o kvfile.o kvimg.o kvtbl.o \
 	libkv.dll libkvtbl.dll \
-	tskv \
+	tskv mkimg \
 	add-bin-to-path
 
 CFLAGS = \
@@ -51,6 +51,9 @@ libkvtbl.dll: $(LIBKVTBL_OBJ) lib/libkv.dll.a | bin lib
 		-Llib -lkv
 
 tskv: tests/tskv.c lib/libkv.dll.a | bin
+	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lkv -lkvtbl
+
+mkimg: tests/mkimg.c lib/libkv.dll.a | bin
 	cc $^ -o bin/$@ $(CFLAGS) -Iinclude -Llib -lkv -lkvtbl
 
 add-bin-to-path:
